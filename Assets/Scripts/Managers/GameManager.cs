@@ -440,6 +440,7 @@ public class GameManager : MonoBehaviour
             Clickable newRealConveyor = GameObject.Instantiate(m_CurrentPlaceable);
             newRealConveyor.transform.position = planClickable.transform.position;
             newRealConveyor.ClearTempSprite(); // Newly instantiated conveyors have their temporary renderered enabled so I hide it like this.
+            newRealConveyor.m_WorldIndex = m_PlannedConveyors[i].GetComponent<Clickable>().m_WorldIndex;
 
             SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
             newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
