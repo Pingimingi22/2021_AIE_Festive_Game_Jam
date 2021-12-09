@@ -10,6 +10,12 @@ public class Clickable : MonoBehaviour
 
     public Vector2 m_WorldIndex;
 
+
+    public SpriteRenderer m_Renderer;
+    public SpriteRenderer m_TemporaryRenderer;
+    public Sprite m_CacheSprite;
+    public Sprite m_TemporarySprite;
+
     public void Click()
     { }
 
@@ -23,7 +29,14 @@ public class Clickable : MonoBehaviour
 	// Start is called before the first frame update
 	protected virtual void Start()
     {
-        
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = transform.GetComponentInChildren<SpriteRenderer>();
+        }
+
+        m_Renderer = spriteRenderer;
+        m_CacheSprite = m_Renderer.sprite;
     }
 
     // Update is called once per frame
@@ -173,6 +186,12 @@ public class Clickable : MonoBehaviour
 
         return surroundingTiles;
         
+    }
+
+    public void SetTempSprite(Sprite sprite)
+    {
+        m_TemporarySprite = sprite;
+        m_TemporaryRenderer.sprite = m_TemporarySprite;
     }
 
 

@@ -43,6 +43,12 @@ public class GameManager : MonoBehaviour
     public Vector2 testpoint = Vector2.zero;
     public Vector2 testpoint2 = Vector2.zero;
 
+    public List<GameObject> m_PlannedConveyors = new List<GameObject>();
+
+
+    public Sprite m_ConveyorSprite;
+
+
 
 	private void Awake()
 	{
@@ -117,6 +123,51 @@ public class GameManager : MonoBehaviour
                 }
                 else
                     testpoint2.x = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.x + requiredSegments * 0.32f;
+
+                if (m_PlannedConveyors.Count - 1 > requiredSegments)
+                {
+                    // We need to delete some of the planned conveyor belts.
+                    //int amountOfExtra = m_PlannedConveyors.Count - requiredSegments;
+                    //for (int i = amountOfExtra; i > 0; i--)
+                    //{
+                    //    GameObject.Destroy(m_PlannedConveyors[amountOfExtra + m_PlannedConveyors.Count]);
+                    //    m_PlannedConveyors.RemoveAt(amountOfExtra + m_PlannedConveyors.Count);
+                    //}
+                    int hi = 5;
+                }
+
+                for (int i = 0; i < requiredSegments; i++)
+                {
+
+
+                    if (xDistance < 0)
+                    {
+                        for (int j = 0; j < requiredSegments; j++)
+                        {
+                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x - requiredSegments, (int)conveyorTile.m_WorldIndex.y);
+                            newTile.SetTempSprite(m_ConveyorSprite);
+                        }
+
+                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                    }
+                    else
+                    {
+
+                        for (int j = 0; j < requiredSegments; j++)
+                        {
+                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x + requiredSegments, (int)conveyorTile.m_WorldIndex.y);
+                            newTile.SetTempSprite(m_ConveyorSprite);
+                        }
+
+                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                    }
+                }
             }
             else
             {
@@ -130,6 +181,39 @@ public class GameManager : MonoBehaviour
                 else
                     testpoint2.y = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.y + requiredSegments * 0.32f;
 
+
+                for (int i = 0; i < requiredSegments; i++)
+                {
+
+
+                    if (yDistance < 0)
+                    {
+                        for (int j = 0; j < requiredSegments; j++)
+                        {
+                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y - requiredSegments);
+                            newTile.SetTempSprite(m_ConveyorSprite);
+                        }
+
+                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                    }
+                    else
+                    {
+
+                        for (int j = 0; j < requiredSegments; j++)
+                        {
+                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y + requiredSegments);
+                            newTile.SetTempSprite(m_ConveyorSprite);
+                        }
+
+                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                    }
+                }
 
 
             }
@@ -228,4 +312,6 @@ public class GameManager : MonoBehaviour
         SpriteRenderer selectionRenderer = m_SelectionOverlayObj.GetComponent<SpriteRenderer>();
         selectionRenderer.transform.localScale = new Vector3(width, height, 1);
     }
+
+    
 }
