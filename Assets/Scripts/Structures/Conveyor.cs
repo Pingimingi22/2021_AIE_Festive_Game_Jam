@@ -32,6 +32,16 @@ public class Conveyor : Structure
     public int m_TotalConveyorConnections = 0;
 
 
+    // Hardcoding connections please work
+    Conveyor m_LeftConnection = null;
+    Conveyor m_RightConnection = null;
+    Conveyor m_UpConnection = null;
+    Conveyor m_DownConnection = null;
+
+    List<Conveyor> m_HardConnections = new List<Conveyor>();
+
+
+
 	// Start is called before the first frame update
 	protected override void Start()
 	{
@@ -107,6 +117,9 @@ public class Conveyor : Structure
             m_ConnectionArray.m_Connections[3] += m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
             northStructure.m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
 
+            Conveyor northConveyor = (Conveyor)northStructure;
+            northConveyor.GetTotalConnections();
+
         }
         if (southTile && southTile.m_Type == TileTypes.CONVEYOR)
         {
@@ -116,6 +129,9 @@ public class Conveyor : Structure
             // Surrounding thing is a conveyor so we have to hook up its connection.
             m_ConnectionArray.m_Connections[1] += m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
             southStructure.m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
+
+            Conveyor southConveyor = (Conveyor)southStructure;
+            southConveyor.GetTotalConnections();
 
         }
         if (eastTile && eastTile.m_Type == TileTypes.CONVEYOR)
@@ -128,6 +144,9 @@ public class Conveyor : Structure
             m_ConnectionArray.m_Connections[0] += m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
             eastStructure.m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
 
+            Conveyor eastConveyor = (Conveyor)eastStructure;
+            eastConveyor.GetTotalConnections();
+
         }
         if (westTile && westTile.m_Type == TileTypes.CONVEYOR)
         {
@@ -137,6 +156,9 @@ public class Conveyor : Structure
             // Surrounding thing is a conveyor so we have to hook up its connection.
             m_ConnectionArray.m_Connections[2] += m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
             westStructure.m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
+
+            Conveyor westConveyor = (Conveyor)westStructure;
+            westConveyor.GetTotalConnections();
 
         }
 
@@ -216,11 +238,37 @@ public class Conveyor : Structure
     public void GetTotalConnections()
     {
         int totalConnections = 0;
+        m_HardConnections.Clear();
         for (int i = 0; i < m_ConnectionArray.m_Connections.Count; i++)
         {
-            if (m_ConnectionArray.m_Connections[0] > 0)
+            if (m_ConnectionArray.m_Connections[i] > 0)
             {
                 totalConnections++;
+
+                if (i == 0)
+                {
+                    // east connection
+                    m_RightConnection = (Conveyor)GetConnection(CONVEYOR_DIRECTION.EAST);
+                    m_HardConnections.Add(m_RightConnection);
+                }
+                else if (i == 2)
+                {
+                    // west connection
+                    m_LeftConnection = (Conveyor)GetConnection(CONVEYOR_DIRECTION.WEST);
+                    m_HardConnections.Add(m_LeftConnection);
+                }
+                else if (i == 3)
+                {
+                    // west connection
+                    m_UpConnection = (Conveyor)GetConnection(CONVEYOR_DIRECTION.NORTH);
+                    m_HardConnections.Add(m_UpConnection);
+                }
+                else if (i == 1)
+                {
+                    // west connection
+                    m_DownConnection = (Conveyor)GetConnection(CONVEYOR_DIRECTION.SOUTH);
+                    m_HardConnections.Add(m_DownConnection);
+                }
             }
         }
         m_TotalConveyorConnections = totalConnections;
@@ -229,38 +277,21 @@ public class Conveyor : Structure
     public Conveyor GetNextConveyor(Conveyor blacklistedConveyor)
     {
         Conveyor nextConveyor = null;
-        if (m_TotalConveyorConnections > 2)
+        if (m_TotalConveyorConnections > 1)
         {
+            //CONVEYOR_DIRECTION nextConveyorDir = GetDirectionFromNum(m_NextConnectionToSend);
+            //Clickable nextClickable = GetConnection(nextConveyorDir);
 
-            bool success = false;
-            while (!success)
-            {
-                success = true;
+            //Conveyor nextConveyor = GetDirectionFromNum(m_NextConnectionToSend);
 
-                CONVEYOR_DIRECTION nextConveyorDir = GetDirectionFromNum(m_NextConnectionToSend);
-                Clickable nextClickable = GetConnection(nextConveyorDir);
-                if (nextClickable)
-                    nextConveyor = (Conveyor)nextClickable;
+            nextConveyor = GetConveyorFromHardCoded(m_NextConnectionToSend);
 
-                if (nextConveyor == blacklistedConveyor || nextConveyor == null)
-                {
-                    // Increment the progress on which conveyor belt to send to next.
-                    if (m_NextConnectionToSend + 1 > m_TotalConveyorConnections)
-                        m_NextConnectionToSend = 0;
-                    else
-                        m_NextConnectionToSend++;
-
-                    success = false;
-                }
-                else
-                {
-                    // Increment the progress on which conveyor belt to send to next.
-                    if (m_NextConnectionToSend + 1 > m_TotalConveyorConnections)
-                        m_NextConnectionToSend = 0;
-                    else
-                        m_NextConnectionToSend++;
-                }
-            } 
+            // Increment the progress on which conveyor belt to send to next.
+            if (m_NextConnectionToSend + 1 > m_TotalConveyorConnections - 1)
+                m_NextConnectionToSend = 0;
+            else
+                m_NextConnectionToSend++;
+     
         }
         else
         {
@@ -346,5 +377,27 @@ public class Conveyor : Structure
             return true;
 
         return false;
+    }
+
+    public void ResetConveyorConnections()
+    {
+        m_LeftConnection = null;
+        m_RightConnection = null;
+        m_UpConnection = null;
+        m_DownConnection = null;
+    }
+
+    public Conveyor GetConveyorFromHardCoded(int index)
+    {
+        if (index > m_TotalConveyorConnections)
+        {
+            Debug.LogError("GetConveyorFromHardCoded index is greater than the amount of total conveyor connections!");
+        }
+        else
+        {
+            return m_HardConnections[index];
+        }
+
+        return null;
     }
 }
