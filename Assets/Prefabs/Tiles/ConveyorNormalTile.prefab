@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 178157150628231687}
   m_Layer: 0
   m_Name: ConveyorNormalTile
-  m_TagString: Untagged
+  m_TagString: Conveyor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

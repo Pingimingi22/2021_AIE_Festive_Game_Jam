@@ -27,6 +27,11 @@ public class Conveyor : Structure
     public CONVEYOR_DIRECTION m_Direction;
 
 
+    public int m_NextConnectionToSend = 0; // Tracks the next connecting conveyor to send to.
+
+    public int m_TotalConveyorConnections = 0;
+
+
 	// Start is called before the first frame update
 	protected override void Start()
 	{
@@ -134,6 +139,8 @@ public class Conveyor : Structure
             westStructure.m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_Connections[2];
 
         }
+
+        GetTotalConnections();
     }
 
 
@@ -187,5 +194,140 @@ public class Conveyor : Structure
         {
             m_ConnectionArray.m_Connections[i] = 0;
         }
+    }
+
+    public void GetTotalConnections()
+    {
+        int totalConnections = 0;
+        for (int i = 0; i < m_ConnectionArray.m_Connections.Count; i++)
+        {
+            if (m_ConnectionArray.m_Connections[0] > 0)
+            {
+                totalConnections++;
+            }
+        }
+        m_TotalConveyorConnections = totalConnections;
+    }
+
+    public Conveyor GetNextConveyor(Conveyor blacklistedConveyor)
+    {
+        Conveyor nextConveyor = null;
+        if (m_TotalConveyorConnections > 2)
+        {
+
+            bool success = false;
+            while (!success)
+            {
+                success = true;
+
+                CONVEYOR_DIRECTION nextConveyorDir = GetDirectionFromNum(m_NextConnectionToSend);
+                Clickable nextClickable = GetConnection(nextConveyorDir);
+                if (nextClickable)
+                    nextConveyor = (Conveyor)nextClickable;
+
+                if (nextConveyor == blacklistedConveyor || nextConveyor == null)
+                {
+                    // Increment the progress on which conveyor belt to send to next.
+                    if (m_NextConnectionToSend + 1 > m_TotalConveyorConnections)
+                        m_NextConnectionToSend = 0;
+                    else
+                        m_NextConnectionToSend++;
+
+                    success = false;
+                }
+                else
+                {
+                    // Increment the progress on which conveyor belt to send to next.
+                    if (m_NextConnectionToSend + 1 > m_TotalConveyorConnections)
+                        m_NextConnectionToSend = 0;
+                    else
+                        m_NextConnectionToSend++;
+                }
+            } 
+        }
+        else
+        {
+            Clickable conveyorClickable = GetFirstConnection();
+            nextConveyor = (Conveyor)conveyorClickable;
+        }
+
+        return nextConveyor;
+    }
+
+    public Clickable GetConnection(CONVEYOR_DIRECTION direction)
+    {
+        switch (direction)
+        {
+            case CONVEYOR_DIRECTION.EAST:
+                return GameManager.s_Instance.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y);
+            case CONVEYOR_DIRECTION.NORTH:
+                return GameManager.s_Instance.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1);
+            case CONVEYOR_DIRECTION.SOUTH:
+                return GameManager.s_Instance.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1);
+            case CONVEYOR_DIRECTION.WEST:
+                return GameManager.s_Instance.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y);
+        }
+
+        return null;
+    }
+    public CONVEYOR_DIRECTION GetDirectionFromNum(int num)
+    {
+        CONVEYOR_DIRECTION dirAttempt = CONVEYOR_DIRECTION.NORTH;
+        switch (num)
+        {
+            case 0:
+                dirAttempt = CONVEYOR_DIRECTION.EAST;
+                break;
+            case 1:
+                dirAttempt = CONVEYOR_DIRECTION.SOUTH;
+                break;
+            case 2:
+                dirAttempt = CONVEYOR_DIRECTION.WEST;
+                break;
+            case 3:
+                dirAttempt = CONVEYOR_DIRECTION.NORTH;
+                break;
+        }
+
+        //Debug.LogError("Error in GetDirectionFromNum!");
+        return dirAttempt;
+            
+    }
+
+    public Clickable GetFirstConnection()
+    {
+        Clickable firstConnection = null;
+
+        for (int i = 0; i < m_ConnectionArray.m_Connections.Count; i++)
+        {
+            if (m_ConnectionArray.m_Connections[i] > 0)
+            {
+                if (IsOppositeDirection(i))
+                {
+                    // Skip this connection if it is in the opposite direction.
+                    continue;
+                }
+                else
+                { 
+                    CONVEYOR_DIRECTION dir = GetDirectionFromNum(i);
+                    return GetConnection(dir);
+                }
+            }
+        }
+        return firstConnection;
+    }
+
+    public bool IsOppositeDirection(int numInArray)
+    {
+        if (m_Direction == CONVEYOR_DIRECTION.EAST && numInArray == 2)
+            return true;
+        else if (m_Direction == CONVEYOR_DIRECTION.SOUTH && numInArray == 3)
+            return true;
+        else if (m_Direction == CONVEYOR_DIRECTION.WEST && numInArray == 0)
+            return true;
+        else if (m_Direction == CONVEYOR_DIRECTION.NORTH && numInArray == 1)
+            return true;
+
+        return false;
     }
 }

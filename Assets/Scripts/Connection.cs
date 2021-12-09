@@ -7,4 +7,7 @@ public class Connection
 {
     public List<int> m_InputOutput = new List<int>();
     public List<int> m_Connections = new List<int>();
+
+
+
 }

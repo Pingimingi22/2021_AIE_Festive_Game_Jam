@@ -78,6 +78,9 @@ public class GameManager : MonoBehaviour
 
                 GameObject newItem = GameObject.Instantiate(m_TestItemPrefab);
                 conveyorSelected.AddItem(newItem.GetComponent<Item>());
+
+                Item newItemItem = newItem.GetComponent<Item>();
+                newItemItem.m_CurrentConveyor = conveyorSelected;
             }
         }
     }
