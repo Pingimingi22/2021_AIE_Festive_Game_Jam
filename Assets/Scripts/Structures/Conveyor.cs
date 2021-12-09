@@ -37,8 +37,13 @@ public class Conveyor : Structure
 	protected override void Update()
     {
         HandleInput();
+        
     }
 
+    public void AddItem(Item itemToAdd)
+    {
+        itemToAdd.transform.position = transform.position;
+    }
     protected override void HandleInput()
     {
         if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)

@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
     // Storing information for the world map.
     public List<List<Clickable>> m_WorldGrid;
 
+    public GameObject m_TestItemPrefab;
+
 
 	private void Awake()
 	{
@@ -67,7 +69,17 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            // Place a present on the conveyer belt that the mouse is currently over.
+            if (m_CurrentSelection is Conveyor)
+            {
+                Conveyor conveyorSelected = (Conveyor)m_CurrentSelection;
+
+                GameObject newItem = GameObject.Instantiate(m_TestItemPrefab);
+                conveyorSelected.AddItem(newItem.GetComponent<Item>());
+            }
+        }
     }
 
    
