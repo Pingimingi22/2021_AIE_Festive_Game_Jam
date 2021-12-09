@@ -32,6 +32,7 @@ public class Clickable : MonoBehaviour
 	private void OnMouseOver()
 	{
         //Debug.Log("Testing mouse over function.");
+        DrawSelectionOverlay();
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log("Clicked on tile.");
@@ -40,7 +41,7 @@ public class Clickable : MonoBehaviour
 
     private void DrawSelectionOverlay()
     {
-        
+        GameManager.s_Instance.PlaceOverlay(this);
     }
 
 
