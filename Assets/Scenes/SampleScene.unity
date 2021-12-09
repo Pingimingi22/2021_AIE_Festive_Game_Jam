@@ -284,6 +284,7 @@ MonoBehaviour:
   m_IsPlacingConveyor: 0
   testpoint: {x: 0, y: 0}
   testpoint2: {x: 0, y: 0}
+  m_HeldHandleDirection: 0
   m_PlannedConveyors: []
   m_ConveyorSprite: {fileID: 21300000, guid: 5423ff8ea9bc35343a05f3a3b854e003, type: 3}
 --- !u!4 &1363697654

@@ -114,12 +114,17 @@ public class GameManager : MonoBehaviour
             Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
 
 
-            // Set conveyor plans based on handle type.
-
+            
             if (Mathf.Abs(xDistance) > Mathf.Abs(yDistance))
             {
                 int requiredSegments = (int)(Mathf.Abs(xDistance) / 0.32f);
                 testpoint2.y = m_StartConveyor.position.y;
+
+                // Set conveyor plans based on handle type.
+                if (m_HeldHandleDirection == HANDLE_TYPE.RIGHT)
+                {
+                    testpoint2.x = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.x + requiredSegments * 0.32f;
+                }
 
                 if (xDistance < 0)
                 {
@@ -143,33 +148,39 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < requiredSegments; i++)
                 {
 
-
+                    
                     if (xDistance < 0)
                     {
-                        for (int j = 0; j < requiredSegments; j++)
-                        {
-                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
-                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x - requiredSegments, (int)conveyorTile.m_WorldIndex.y);
-                            newTile.SetTempSprite(m_ConveyorSprite);
-                        }
+                        if (m_HeldHandleDirection == HANDLE_TYPE.LEFT)
+                        { 
+                            for (int j = 0; j < requiredSegments; j++)
+                            {
+                                Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                                Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x - requiredSegments, (int)conveyorTile.m_WorldIndex.y);
+                                newTile.SetTempSprite(m_ConveyorSprite);
+                            }
 
-                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
-                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
-                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                            //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                            //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                            //m_PlannedConveyors.Add(newPlannedConveyor);
+                        }
                     }
                     else
                     {
-
-                        for (int j = 0; j < requiredSegments; j++)
+                        if (m_HeldHandleDirection == HANDLE_TYPE.RIGHT)
                         {
-                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
-                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x + requiredSegments, (int)conveyorTile.m_WorldIndex.y);
-                            newTile.SetTempSprite(m_ConveyorSprite);
+                            for (int j = 0; j < requiredSegments; j++)
+                            {
+                                Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                                Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x + requiredSegments, (int)conveyorTile.m_WorldIndex.y);
+                                newTile.SetTempSprite(m_ConveyorSprite);
+                            }
+
+                            //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                            //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                            //m_PlannedConveyors.Add(newPlannedConveyor);
                         }
 
-                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
-                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
-                        //m_PlannedConveyors.Add(newPlannedConveyor);
                     }
                 }
             }
@@ -192,30 +203,37 @@ public class GameManager : MonoBehaviour
 
                     if (yDistance < 0)
                     {
-                        for (int j = 0; j < requiredSegments; j++)
-                        {
-                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
-                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y - requiredSegments);
-                            newTile.SetTempSprite(m_ConveyorSprite);
+                        if (m_HeldHandleDirection == HANDLE_TYPE.UP)
+                        { 
+                            for (int j = 0; j < requiredSegments; j++)
+                            {
+                                Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                                Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y - requiredSegments);
+                                newTile.SetTempSprite(m_ConveyorSprite);
+                            }
+
+                            //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                            //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                            //m_PlannedConveyors.Add(newPlannedConveyor);
                         }
 
-                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
-                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
-                        //m_PlannedConveyors.Add(newPlannedConveyor);
                     }
                     else
                     {
 
-                        for (int j = 0; j < requiredSegments; j++)
-                        {
-                            Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
-                            Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y + requiredSegments);
-                            newTile.SetTempSprite(m_ConveyorSprite);
-                        }
+                        if (m_HeldHandleDirection == HANDLE_TYPE.UP)
+                        { 
+                            for (int j = 0; j < requiredSegments; j++)
+                            {
+                                Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
+                                Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y + requiredSegments);
+                                newTile.SetTempSprite(m_ConveyorSprite);
+                            }
 
-                        //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
-                        //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
-                        //m_PlannedConveyors.Add(newPlannedConveyor);
+                            //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
+                            //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
+                            //m_PlannedConveyors.Add(newPlannedConveyor);
+                        }
                     }
                 }
 

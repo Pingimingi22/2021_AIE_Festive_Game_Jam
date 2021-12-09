@@ -78,6 +78,7 @@ MonoBehaviour:
   m_TemporaryRenderer: {fileID: 0}
   m_CacheSprite: {fileID: 0}
   m_TemporarySprite: {fileID: 0}
+  m_HandleType: 1
 --- !u!1 &1178103127
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +370,7 @@ MonoBehaviour:
   m_TemporaryRenderer: {fileID: 0}
   m_CacheSprite: {fileID: 0}
   m_TemporarySprite: {fileID: 0}
+  m_HandleType: 0
 --- !u!1 &1917684592
 GameObject:
   m_ObjectHideFlags: 0
