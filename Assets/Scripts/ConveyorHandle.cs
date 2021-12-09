@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+public enum HANDLE_TYPE
+{ 
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+}
 public class ConveyorHandle : Clickable
 {
+    public HANDLE_TYPE m_HandleType;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +37,7 @@ public class ConveyorHandle : Clickable
                 Debug.Log(" ============================ Clicked on a HANDLE ============================");
                 GameManager.s_Instance.m_IsPlacingConveyor = true;
                 GameManager.s_Instance.m_StartConveyor = transform.parent.transform;
+                GameManager.s_Instance.m_HeldHandleDirection = m_HandleType;
             }
         }
     }

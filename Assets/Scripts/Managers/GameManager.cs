@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public bool m_IsPlacingConveyor = false;
     public Vector2 testpoint = Vector2.zero;
     public Vector2 testpoint2 = Vector2.zero;
+    public HANDLE_TYPE m_HeldHandleDirection;
 
     public List<GameObject> m_PlannedConveyors = new List<GameObject>();
 
@@ -111,6 +112,9 @@ public class GameManager : MonoBehaviour
             testpoint = hit.point;
 
             Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
+
+
+            // Set conveyor plans based on handle type.
 
             if (Mathf.Abs(xDistance) > Mathf.Abs(yDistance))
             {
