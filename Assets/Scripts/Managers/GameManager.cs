@@ -1,7 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+public enum SelectedButton
+{ 
+    NONE,
+    CONVEYOR_BUTTON,
+    TEST_WORKSHOP_BUTTON,
+    TEST_FACTORY_BUTTON
+}
 public class GameManager : MonoBehaviour
 {
     public static GameManager s_Instance = null;
@@ -33,8 +41,21 @@ public class GameManager : MonoBehaviour
 
     public Vector3 m_HalfExtentBG;
 
-    // Storing information for the world map.
-    public List<List<Clickable>> m_WorldGrid;
+
+    // References to game prefabs.
+    [Header("Game Prefabs")]
+    public Clickable m_ConveyorPrefab;
+    public Clickable m_TestWorkshopPrefab;
+    public Clickable m_TestFactoryPrefab;
+
+    [Header("UI References")]
+    public Image m_ConveyorButtonImg;
+    public Image m_TestWorkshopButtonImg;
+    public Image m_TestFactoryButtonImg;
+
+
+	// Storing information for the world map.
+	public List<List<Clickable>> m_WorldGrid;
 
     public GameObject m_TestItemPrefab;
 
@@ -53,6 +74,10 @@ public class GameManager : MonoBehaviour
 
     public float m_CurrentTempSpriteRotation = 0;
 
+
+
+    // ui stuff
+    SelectedButton m_SelectedButton;
 
 
     private void Awake()
@@ -98,6 +123,11 @@ public class GameManager : MonoBehaviour
                 Item newItemItem = newItem.GetComponent<Item>();
                 newItemItem.m_CurrentConveyor = conveyorSelected;
             }
+        }
+
+        if (Input.GetMouseButtonDown(1) && !m_IsPlacingConveyor)
+        {
+            ClearPlaceable();
         }
 
         if (m_IsPlacingConveyor)
@@ -449,7 +479,7 @@ public class GameManager : MonoBehaviour
             newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
 
             
-
+            
             // Setting inputs/outputs and connections for this confirmed choice of conveyor belts.
             Conveyor newConveyorConveyor = (Conveyor)newRealConveyor;
             int connectionNum = GetNumDirFromHandleDir(m_HeldHandleDirection);
@@ -477,5 +507,51 @@ public class GameManager : MonoBehaviour
                 return -1;
         }
     }
-    
+
+
+    public void SelectPlaceable(Clickable placeablePrefab)
+    {
+        m_CurrentPlaceable = placeablePrefab;
+
+        if (placeablePrefab == m_ConveyorPrefab)
+        {
+            m_SelectedButton = SelectedButton.CONVEYOR_BUTTON;
+        }
+        else if (placeablePrefab == m_TestFactoryPrefab)
+        {
+            m_SelectedButton = SelectedButton.TEST_FACTORY_BUTTON;
+        }
+        else
+            m_SelectedButton = SelectedButton.NONE;
+
+
+        SelectButton();
+    }
+    public void ClearPlaceable()
+    {
+        m_CurrentPlaceable = null;
+        m_SelectedButton = SelectedButton.NONE;
+
+        m_ConveyorButtonImg.color = Color.white;
+        m_TestFactoryButtonImg.color = Color.white;
+    }
+
+    public void SelectButton()
+    {
+        m_ConveyorButtonImg.color = Color.white;
+        m_TestFactoryButtonImg.color = Color.white;
+
+
+        switch (m_SelectedButton)
+        {
+            case SelectedButton.CONVEYOR_BUTTON:
+                m_ConveyorButtonImg.color = Color.gray;
+                break;
+            case SelectedButton.TEST_FACTORY_BUTTON:
+                m_TestFactoryButtonImg.color = Color.gray;
+                break;
+
+        }
+    }
+
 }
