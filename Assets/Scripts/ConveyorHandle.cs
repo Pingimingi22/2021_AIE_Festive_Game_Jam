@@ -38,6 +38,10 @@ public class ConveyorHandle : Clickable
                 GameManager.s_Instance.m_IsPlacingConveyor = true;
                 GameManager.s_Instance.m_StartConveyor = transform.parent.transform;
                 GameManager.s_Instance.m_HeldHandleDirection = m_HandleType;
+
+                // Remove current placeable so we don't accidentally place while planning conveyor belts.
+                GameManager.s_Instance.ClearPlaceable();
+                
             }
         }
     }

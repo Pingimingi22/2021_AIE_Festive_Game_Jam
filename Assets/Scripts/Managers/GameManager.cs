@@ -467,10 +467,13 @@ public class GameManager : MonoBehaviour
         {
             Clickable planClickable = m_PlannedConveyors[i].gameObject.GetComponent<Clickable>();
 
-            Clickable newRealConveyor = GameObject.Instantiate(m_CurrentPlaceable);
+            Clickable newRealConveyor = GameObject.Instantiate(m_ConveyorPrefab);
             newRealConveyor.transform.position = planClickable.transform.position;
             newRealConveyor.ClearTempSprite(); // Newly instantiated conveyors have their temporary renderered enabled so I hide it like this.
             newRealConveyor.m_WorldIndex = m_PlannedConveyors[i].GetComponent<Clickable>().m_WorldIndex; // Assign world index to new conveyor.
+
+            // Have to disable collider of background tile since we've placed something on top of it.
+            m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y].GetComponent<BoxCollider2D>().enabled = false;
 
             // Have to tell the world that this new conveyor belt should replace the current world index reference.
             m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y] = newRealConveyor;

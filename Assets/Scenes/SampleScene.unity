@@ -956,6 +956,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BackgroundTile
       objectReference: {fileID: 0}
+    - target: {fileID: 1261075003187218309, guid: db4f4b1fd2c114b4f8dfbded17c600c4, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1261075003187218425, guid: db4f4b1fd2c114b4f8dfbded17c600c4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.54755

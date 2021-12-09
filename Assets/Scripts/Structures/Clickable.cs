@@ -110,6 +110,80 @@ public class Clickable : MonoBehaviour
     {
         if (GameManager.s_Instance.m_CurrentPlaceable) // If we have a placeable to place.
         {
+
+            if (GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestFactoryPrefab)
+            {
+                // Because this building is bigger than 1x1 we have to get all 10 of the tiles it goes over.
+                int startX = (int)m_WorldIndex.x - 2;
+                int startY = (int)m_WorldIndex.y - 2;
+
+                int endX = (int)m_WorldIndex.x + 2;
+                int endY = (int)m_WorldIndex.y + 2;
+
+                // First we check if we can even start in the top left corner, if we can't, abort.
+                if (startX < 0 || startX > GameManager.s_Instance.m_Width - 1)
+                {
+                    Debug.Log("========================== COULD NOT PLACE FACTORY ==========================");
+                    return;
+                }
+                if (startY < 0 || startY > GameManager.s_Instance.m_Height - 1)
+                {
+                    Debug.Log("========================== COULD NOT PLACE FACTORY ==========================");
+                    return;
+                }
+
+                // Okay, if we've got to here, we know the index is valid but now we have to check if the bottom right corner is valid.
+                if (endX < 0 || endX > GameManager.s_Instance.m_Width - 1)
+                {
+                    Debug.Log("========================== COULD NOT PLACE FACTORY ==========================");
+                    return;
+                }
+                if (endY < 0 || endY > GameManager.s_Instance.m_Height - 1)
+                {
+                    Debug.Log("========================== COULD NOT PLACE FACTORY ==========================");
+                    return;
+                }
+
+                // Okay, now we know that the factory is within the grids limits.
+
+                bool success = false;
+                while (!success)
+                {
+                    success = true;
+                    for (int i = startX; i < endX; i++)
+                    {
+                        for (int j = startY; j < endY; j++)
+                        {
+                            if (GameManager.s_Instance.m_WorldGrid[i][j] == null)
+                            {
+                                success = false; // fail.
+                                return;
+                            }
+                            else
+                            {
+                                // Can only place on BG tiles.
+                                Clickable tileCheck = GameManager.s_Instance.m_WorldGrid[i][j].GetComponent<Clickable>();
+                                if (tileCheck.m_Type != TileTypes.BG)
+                                {
+                                    success = false;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Okay after all of that, we now know that we can place the factory down.
+                for (int i = startX; i < endX + 1; i++)
+                {
+                    for (int j = startY; j < endY + 1; j++)
+                    {
+                        GameManager.s_Instance.m_WorldGrid[i][j].m_Type = TileTypes.BUILDING;
+                    }
+                }
+            }
+
+
             // When we place a tile, we have to remove the collider from the tile beneath.
             this.GetComponent<BoxCollider2D>().enabled = false;
 
