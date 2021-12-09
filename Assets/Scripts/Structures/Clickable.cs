@@ -134,11 +134,11 @@ public class Clickable : MonoBehaviour
                     Conveyor newTileConveyor = newTile.GetComponent<Conveyor>();
                     
 
-                    newTileConveyor.ClearConnections();
-                    newTileConveyor.ResetInputs();
+                    //newTileConveyor.ClearConnections();
+                    //newTileConveyor.ResetInputs();
 
                     // Check if we have to connect things now that we've rotated.
-                    newTileConveyor.Connect();
+                    //newTileConveyor.Connect();
 
                     
                 }

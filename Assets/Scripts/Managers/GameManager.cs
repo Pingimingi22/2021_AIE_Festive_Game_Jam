@@ -440,12 +440,42 @@ public class GameManager : MonoBehaviour
             Clickable newRealConveyor = GameObject.Instantiate(m_CurrentPlaceable);
             newRealConveyor.transform.position = planClickable.transform.position;
             newRealConveyor.ClearTempSprite(); // Newly instantiated conveyors have their temporary renderered enabled so I hide it like this.
-            newRealConveyor.m_WorldIndex = m_PlannedConveyors[i].GetComponent<Clickable>().m_WorldIndex;
+            newRealConveyor.m_WorldIndex = m_PlannedConveyors[i].GetComponent<Clickable>().m_WorldIndex; // Assign world index to new conveyor.
+
+            // Have to tell the world that this new conveyor belt should replace the current world index reference.
+            m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y] = newRealConveyor;
 
             SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
             newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
+
+            
+
+            // Setting inputs/outputs and connections for this confirmed choice of conveyor belts.
+            Conveyor newConveyorConveyor = (Conveyor)newRealConveyor;
+            int connectionNum = GetNumDirFromHandleDir(m_HeldHandleDirection);
+            newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
+
         }
         StopPlanning();        
+    }
+
+    public int GetNumDirFromHandleDir(HANDLE_TYPE handleDir)
+    {
+        switch (handleDir)
+        {
+            case HANDLE_TYPE.RIGHT:
+                return 0;
+            case HANDLE_TYPE.DOWN:
+                return 1;
+            case HANDLE_TYPE.LEFT:
+                return 2;
+            case HANDLE_TYPE.UP:
+                return 3;
+
+            default:
+                Debug.LogError("GetNumDirFromHandleDir has broken!");
+                return -1;
+        }
     }
     
 }
