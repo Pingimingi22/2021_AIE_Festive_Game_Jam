@@ -20,7 +20,11 @@ public class GameManager : MonoBehaviour
 
     public float m_Cash;
     public float m_TimeLeft;
+
+
     public Clickable m_CurrentSelection;
+    public Clickable m_CurrentPlaceable;
+
     public float m_GiftsPerSecond;
     public int m_TotalGiftsSent;
 
@@ -71,6 +75,7 @@ public class GameManager : MonoBehaviour
                 newPos.x = i * m_HalfExtentBG.x;
                 newPos.y = j * m_HalfExtentBG.y;
                 newBg.transform.position = newPos;
+                
 
             }
         }
@@ -85,4 +90,13 @@ public class GameManager : MonoBehaviour
         m_SelectionOverlayObj.transform.position = clickable.transform.position;
     }
 
+    public void SelectTile(Clickable tileToSelect)
+    {
+        m_CurrentSelection = (Clickable)tileToSelect;
+
+        if (tileToSelect.m_Type == TileTypes.CONVEYOR)
+        {
+            Debug.Log("test");
+        }
+    }
 }

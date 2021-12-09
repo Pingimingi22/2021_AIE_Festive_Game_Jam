@@ -5,7 +5,8 @@ using UnityEngine;
 public class Clickable : MonoBehaviour
 {
     public bool m_IsClicked;
-
+    public TileTypes m_Type;
+    public int m_ID = 0;
 
     public void Click()
     { }
@@ -24,24 +25,64 @@ public class Clickable : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        
+        Debug.Log("Parent update.");
+        HandleInput();
+    }
+
+    protected virtual void HandleInput()
+    {
+        if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
+        {
+
+            gameObject.name = "clicked";
+            //if (m_Type == TileTypes.CONVEYOR)
+            //{
+            if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR)
+            {
+                transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 90);
+                Debug.Log("ROTATED TILE.");
+            }
+
+            else
+            {
+                Debug.Log("PLACED TILE.");
+                PlaceTile();
+            }
+        }
     }
 
 	private void OnMouseOver()
 	{
-        //Debug.Log("Testing mouse over function.");
+        Debug.Log("Testing mouse over function.");
         DrawSelectionOverlay();
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Clicked on tile.");
-        }
+        GameManager.s_Instance.SelectTile(this);
+        Debug.Log("Selected tile is: " + this.gameObject.name);
 	}
 
     private void DrawSelectionOverlay()
     {
         GameManager.s_Instance.PlaceOverlay(this);
+    }
+
+
+    /// <summary>
+    /// When we place a tile, we're going to do it the lazy way. Instead of converting an existing one to a new tile, we will
+    /// instantiate the new tile and remove the old one. This is less efficient but it's a game jam so whatevs.
+    /// </summary>
+    private void PlaceTile()
+    {
+        if (GameManager.s_Instance.m_CurrentPlaceable) // If we have a placeable to place.
+        {
+            // When we place a tile, we have to remove the collider from the tile beneath.
+            this.GetComponent<BoxCollider2D>().enabled = false;
+
+
+            GameObject newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);
+            newTile.transform.position = this.transform.position;
+            //Destroy(this);
+        }
     }
 
 
