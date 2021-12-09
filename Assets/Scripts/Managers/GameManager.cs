@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager s_Instance = null;
 
+    public Camera m_Camera;
+
 
     [Header("World Settings")]
     public int m_Width = 64;
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
 
     public Vector3 m_HalfExtentBG;
 
+    // Storing information for the world map.
+    public List<List<Clickable>> m_WorldGrid;
+
 
 	private void Awake()
 	{
@@ -55,6 +60,7 @@ public class GameManager : MonoBehaviour
         m_SelectionOverlayObj = GameObject.Instantiate(m_SelectionOverlayTilePrefab);
         m_SelectionOverlayObj.transform.position = Vector3.zero;
 
+
         GenerateBackground();
     }
 
@@ -64,10 +70,13 @@ public class GameManager : MonoBehaviour
         
     }
 
+   
     public void GenerateBackground()
     {
+        m_WorldGrid = new List<List<Clickable>>();
         for (int i = 0; i < m_Width; i++)
         {
+            m_WorldGrid.Add(new List<Clickable>());
             for (int j = 0; j < m_Height; j++)
             {
                 GameObject newBg = GameObject.Instantiate(m_BackgroundTilePrefab);
@@ -75,8 +84,14 @@ public class GameManager : MonoBehaviour
                 newPos.x = i * m_HalfExtentBG.x;
                 newPos.y = j * m_HalfExtentBG.y;
                 newBg.transform.position = newPos;
-                
 
+                Clickable bgClickable = newBg.GetComponent<Clickable>();
+
+                // Initialising world grid.
+                m_WorldGrid[i].Add(bgClickable);
+
+                bgClickable.m_WorldIndex.x = i;
+                bgClickable.m_WorldIndex.y = j;
             }
         }
     }
@@ -98,5 +113,26 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("test");
         }
+    }
+
+    public Clickable GetTile(int x, int y)
+    {
+        if (x < m_Width && x > 0)
+        {
+            if (y < m_Height && y > 0)
+            {
+                // Passed in a valid location on the grid.
+                return m_WorldGrid[x][y];
+
+            }
+        }
+
+        return null;
+        
+    }
+
+    public void UpdateTile(int xIndex, int yIndex, Clickable newTile)
+    {
+        m_WorldGrid[xIndex][yIndex] = newTile;
     }
 }

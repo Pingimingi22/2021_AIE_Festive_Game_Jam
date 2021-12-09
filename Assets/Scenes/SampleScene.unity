@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e079eb1c9cf1494b84fe9c4f8ae0e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
   m_Width: 5
   m_Height: 5
   m_BackgroundTilePrefab: {fileID: 1261075003187218309, guid: db4f4b1fd2c114b4f8dfbded17c600c4, type: 3}

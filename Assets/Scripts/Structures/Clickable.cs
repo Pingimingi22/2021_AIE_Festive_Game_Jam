@@ -8,6 +8,8 @@ public class Clickable : MonoBehaviour
     public TileTypes m_Type;
     public int m_ID = 0;
 
+    public Vector2 m_WorldIndex;
+
     public void Click()
     { }
 
@@ -19,7 +21,7 @@ public class Clickable : MonoBehaviour
 
 
 	// Start is called before the first frame update
-	void Start()
+	protected virtual void Start()
     {
         
     }
@@ -80,9 +82,75 @@ public class Clickable : MonoBehaviour
 
 
             GameObject newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);
+
+            Clickable newClickable = newTile.GetComponent<Clickable>();
+            newClickable.m_WorldIndex.x = m_WorldIndex.x;
+            newClickable.m_WorldIndex.y = m_WorldIndex.y;
+            GameManager.s_Instance.UpdateTile((int)m_WorldIndex.x, (int)m_WorldIndex.y, newClickable);
+
+
+            if (GameManager.s_Instance.m_CurrentPlaceable is Structure || GameManager.s_Instance.m_CurrentPlaceable is Conveyor)
+            {
+                // The placed item is a structure, we have to connect it to the world grid.
+                Structure newTileStructure = newTile.GetComponent<Structure>();
+                newTileStructure.Connect();
+            }
+
+
+
             newTile.transform.position = this.transform.position;
-            //Destroy(this);
+
+            
+
         }
+    }
+
+
+
+    /// <summary>
+    /// Finds all surrounding tiles. 
+    /// </summary>
+    protected List<Clickable> GetSurroundingTiles()
+    {
+        GameManager manager = GameManager.s_Instance;
+
+        List<Clickable> surroundingTiles = new List<Clickable>();
+
+        // ========================== RIGHT CONNECTION ========================== //
+        if (manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y))
+        {
+            Clickable rightTile = manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y);
+   
+            surroundingTiles.Add(rightTile);    
+            
+        }
+        // ========================== LEFT CONNECTION ========================== //
+        if (manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y))
+        {
+            Clickable leftTile = manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y);
+
+            surroundingTiles.Add(leftTile);
+            
+        }
+        // ========================== UP CONNECTION ========================== //
+        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1))
+        {
+            Clickable upTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1);
+
+                surroundingTiles.Add(upTile);
+            
+        }
+        // ========================== DOWN CONNECTION ========================== //
+        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1))
+        {
+            Clickable downTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1);
+
+                surroundingTiles.Add(downTile);
+            
+        }
+
+        return surroundingTiles;
+        
     }
 
 

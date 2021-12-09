@@ -10,7 +10,7 @@ public class Structure : Clickable
     public Connection m_ConnectionArray;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         
     }
@@ -19,5 +19,54 @@ public class Structure : Clickable
     void Update()
     {
         
+    }
+
+    /// <summary>
+    /// Connects structure and surrounding structure to the grid.
+    /// </summary>
+	public virtual void Connect()
+	{
+        GameManager manager = GameManager.s_Instance;
+        Clickable northTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1);
+        Clickable southTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1);
+        Clickable eastTile = manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y);
+        Clickable westTile = manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y);
+
+
+
+
+        if (northTile && northTile.m_Type == TileTypes.CONVEYOR)
+        {
+            // Surrounding thing is a conveyor so we have to hook up its connection.
+            m_ConnectionArray.m_Connections[0] = 1;
+
+            Structure northStructure = (Structure)northTile;
+            northStructure.m_ConnectionArray.m_Connections[1] = 1;
+
+        }
+        if (southTile && southTile.m_Type == TileTypes.CONVEYOR)
+        {
+            // Surrounding thing is a conveyor so we have to hook up its connection.
+            m_ConnectionArray.m_Connections[1] = 1;
+
+            Structure southStructure = (Structure)southTile;
+            southStructure.m_ConnectionArray.m_Connections[0] = 1;
+        }
+        if (eastTile && eastTile.m_Type == TileTypes.CONVEYOR)
+        {
+            // Surrounding thing is a conveyor so we have to hook up its connection.
+            m_ConnectionArray.m_Connections[2] = 1;
+
+            Structure eastStructure = (Structure)eastTile;
+            eastStructure.m_ConnectionArray.m_Connections[3] = 1;
+        }
+        if (westTile && westTile.m_Type == TileTypes.CONVEYOR)
+        {
+            // Surrounding thing is a conveyor so we have to hook up its connection.
+            m_ConnectionArray.m_Connections[3] = 1;
+
+            Structure westStructure = (Structure)westTile;
+            westStructure.m_ConnectionArray.m_Connections[2] = 1;
+        }
     }
 }
