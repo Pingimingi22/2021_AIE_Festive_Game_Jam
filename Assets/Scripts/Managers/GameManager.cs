@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
 
     public GameObject m_TestItemPrefab;
 
+    public Transform m_StartConveyor = null;
+    public bool m_IsPlacingConveyor = false;
+    public Vector2 testpoint = Vector2.zero;
+    public Vector2 testpoint2 = Vector2.zero;
+
 
 	private void Awake()
 	{
@@ -83,10 +88,77 @@ public class GameManager : MonoBehaviour
                 newItemItem.m_CurrentConveyor = conveyorSelected;
             }
         }
+
+        if (m_IsPlacingConveyor)
+        {
+            Vector2 mousePos = Input.mousePosition;
+
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePos), Vector2.zero);
+
+            testpoint = hit.point;
+
+            // If X is greater, draw horizontally, otherwise draw vertically.
+            float xDistance = hit.point.x - m_StartConveyor.position.x;
+            float yDistance = hit.point.y - m_StartConveyor.position.y;
+
+            Vector2 toHit = (Vector2)hit.point - (Vector2)m_StartConveyor.position;
+            testpoint = hit.point;
+
+            Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
+
+            if (Mathf.Abs(xDistance) > Mathf.Abs(yDistance))
+            {
+                int requiredSegments = (int)(Mathf.Abs(xDistance) / 0.32f);
+                testpoint2.y = m_StartConveyor.position.y;
+
+                if (xDistance < 0)
+                {
+                    testpoint2.x = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.x + -requiredSegments * 0.32f;
+                }
+                else
+                    testpoint2.x = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.x + requiredSegments * 0.32f;
+            }
+            else
+            {
+                int requiredSegments = (int)(Mathf.Abs(yDistance) / 0.32f);
+                testpoint2.x = m_StartConveyor.position.x;
+
+                if (yDistance < 0)
+                {
+                    testpoint2.y = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.y + -requiredSegments * 0.32f;
+                }
+                else
+                    testpoint2.y = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.y + requiredSegments * 0.32f;
+
+
+
+            }
+            //else
+            //{
+            //    int requiredSegments = (int)(yDistance / 0.32f);
+            //    testpoint2.x = m_StartConveyor.position.x;
+            //    testpoint2.y = requiredSegments * 0.32f;
+            //}
+
+
+        }
     }
 
-   
-    public void GenerateBackground()
+	private void OnDrawGizmos()
+	{
+        Gizmos.DrawSphere(testpoint, 0.1f);
+
+        if (m_StartConveyor)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(m_StartConveyor.position, testpoint2);
+            Gizmos.DrawSphere(m_StartConveyor.position, 0.05f);
+        }
+		
+	}
+
+
+	public void GenerateBackground()
     {
         m_WorldGrid = new List<List<Clickable>>();
         for (int i = 0; i < m_Width; i++)
@@ -115,9 +187,9 @@ public class GameManager : MonoBehaviour
     /// Places selection overlay over clickable object.
     /// </summary>
     /// <param name="clickable"></param>
-    public void PlaceOverlay(Clickable clickable)
+    public void PlaceOverlay(Vector3 position)
     {
-        m_SelectionOverlayObj.transform.position = clickable.transform.position;
+        m_SelectionOverlayObj.transform.position = position;
     }
 
     public void SelectTile(Clickable tileToSelect)
@@ -149,5 +221,11 @@ public class GameManager : MonoBehaviour
     public void UpdateTile(int xIndex, int yIndex, Clickable newTile)
     {
         m_WorldGrid[xIndex][yIndex] = newTile;
+    }
+
+    public void ResizeSelectionOverlay(float width, float height)
+    {
+        SpriteRenderer selectionRenderer = m_SelectionOverlayObj.GetComponent<SpriteRenderer>();
+        selectionRenderer.transform.localScale = new Vector3(width, height, 1);
     }
 }

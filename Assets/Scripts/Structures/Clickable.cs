@@ -38,34 +38,41 @@ public class Clickable : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
         {
 
-            gameObject.name = "clicked";
+            //gameObject.name = "clicked";
             //if (m_Type == TileTypes.CONVEYOR)
             //{
             if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR)
             {
                 transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z + 90);
-                Debug.Log("ROTATED TILE.");
+                //Debug.Log("ROTATED TILE.");
             }
 
             else
             {
-                Debug.Log("PLACED TILE.");
+                //Debug.Log("PLACED TILE.");
                 PlaceTile();
             }
         }
     }
 
-	private void OnMouseOver()
+	protected virtual void OnMouseOver()
 	{
         Debug.Log("Testing mouse over function.");
-        DrawSelectionOverlay();
+        DrawSelectionOverlay(1, 1, transform.position);
         GameManager.s_Instance.SelectTile(this);
         Debug.Log("Selected tile is: " + this.gameObject.name);
 	}
 
-    private void DrawSelectionOverlay()
+    protected virtual void DrawSelectionOverlay(float width, float height, Vector3 position)
     {
-        GameManager.s_Instance.PlaceOverlay(this);
+
+        GameManager.s_Instance.PlaceOverlay(position);
+        if (width != 1)
+        {
+            int hi = 5;
+        }
+        GameManager.s_Instance.ResizeSelectionOverlay(width, height);
+
     }
 
 

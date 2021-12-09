@@ -6,7 +6,8 @@ using UnityEngine;
 public enum TileTypes
 { 
     BG,
-    CONVEYOR
+    CONVEYOR,
+    CONVEYOR_HANDLE
 }
 //public class TileTypes : MonoBehaviour
 //{
