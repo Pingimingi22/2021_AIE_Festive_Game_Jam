@@ -67,8 +67,8 @@ public class Conveyor : Structure
                 else
                     m_Direction++;
 
-                ResetConnections();
                 ClearConnections();
+                ResetInputs();
 
                 // Check if we have to connect things now that we've rotated.
                 Connect();
@@ -104,8 +104,8 @@ public class Conveyor : Structure
 
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
-            northStructure.m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_Connections[3];
+            m_ConnectionArray.m_Connections[3] += m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
+            northStructure.m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
 
         }
         if (southTile && southTile.m_Type == TileTypes.CONVEYOR)
@@ -114,8 +114,8 @@ public class Conveyor : Structure
             //southStructure.m_ConnectionArray.m_Connections[0] = 1;
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
-            southStructure.m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_Connections[1];
+            m_ConnectionArray.m_Connections[1] += m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
+            southStructure.m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
 
         }
         if (eastTile && eastTile.m_Type == TileTypes.CONVEYOR)
@@ -125,8 +125,8 @@ public class Conveyor : Structure
 
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
-            eastStructure.m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_Connections[0];
+            m_ConnectionArray.m_Connections[0] += m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
+            eastStructure.m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
 
         }
         if (westTile && westTile.m_Type == TileTypes.CONVEYOR)
@@ -135,8 +135,8 @@ public class Conveyor : Structure
             //westStructure.m_ConnectionArray.m_Connections[2] = 1;
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
-            westStructure.m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_Connections[2];
+            m_ConnectionArray.m_Connections[2] += m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
+            westStructure.m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
 
         }
 
@@ -147,7 +147,7 @@ public class Conveyor : Structure
     /// <summary>
     /// Sets connection back to what they should be based on direction.
     /// </summary>
-    public void ResetConnections()
+    public void ResetInputs()
     {
         // Setting input and output nodes for the conveyor belt.
         if (m_Direction == CONVEYOR_DIRECTION.EAST)
@@ -158,6 +158,12 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[1] = 0;
             m_ConnectionArray.m_InputOutput[3] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[2] = -2;
+
+
+
         }
         else if (m_Direction == CONVEYOR_DIRECTION.WEST)
         {
@@ -167,6 +173,10 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[1] = 0;
             m_ConnectionArray.m_InputOutput[3] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[0] = -2;
+
         }
         else if (m_Direction == CONVEYOR_DIRECTION.NORTH)
         {
@@ -176,6 +186,9 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[0] = 0;
             m_ConnectionArray.m_InputOutput[2] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[1] = -2;
         }
         else if (m_Direction == CONVEYOR_DIRECTION.SOUTH)
         {
@@ -185,6 +198,9 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[0] = 0;
             m_ConnectionArray.m_InputOutput[2] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[3] = -2;
         }
     }
 
@@ -192,7 +208,8 @@ public class Conveyor : Structure
     {
         for (int i = 0; i < m_ConnectionArray.m_Connections.Count; i++)
         {
-            m_ConnectionArray.m_Connections[i] = 0;
+            //if(m_ConnectionArray.m_Connections[i] > 0)
+                m_ConnectionArray.m_Connections[i] = 0;
         }
     }
 
