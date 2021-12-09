@@ -21,10 +21,10 @@ public class ConnectionDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        m_NorthText.text = m_Structure.m_ConnectionArray.m_Connections[0].ToString();
+        m_EastText.text = m_Structure.m_ConnectionArray.m_Connections[0].ToString();
         m_SouthText.text = m_Structure.m_ConnectionArray.m_Connections[1].ToString();
-        m_EastText.text = m_Structure.m_ConnectionArray.m_Connections[2].ToString();
-        m_WestText.text = m_Structure.m_ConnectionArray.m_Connections[3].ToString();
+        m_WestText.text = m_Structure.m_ConnectionArray.m_Connections[2].ToString();
+        m_NorthText.text = m_Structure.m_ConnectionArray.m_Connections[3].ToString();
    
     }
 }
