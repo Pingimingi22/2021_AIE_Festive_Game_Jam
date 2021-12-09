@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7886106756454516185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7886106756454516187}
+  - component: {fileID: 7886106756454516184}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7886106756454516187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886106756454516185}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1483865, y: -0.06832766, z: -10.199412}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7886106756454516184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7886106756454516185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e079eb1c9cf1494b84fe9c4f8ae0e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
+  m_Width: 10
+  m_Height: 10
+  m_BackgroundTilePrefab: {fileID: 1261075003187218309, guid: db4f4b1fd2c114b4f8dfbded17c600c4, type: 3}
+  m_SelectionOverlayTilePrefab: {fileID: 3416786477968335883, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
+  m_SelectionOverlayObj: {fileID: 0}
+  m_Cash: 0
+  m_TimeLeft: 0
+  m_CurrentSelection: {fileID: 0}
+  m_CurrentPlaceable: {fileID: 0}
+  m_GiftsPerSecond: 0
+  m_TotalGiftsSent: 0
+  m_HalfExtentBG: {x: 0, y: 0, z: 0}
+  m_ConveyorPrefab: {fileID: 178157150628231687, guid: 0d1c3103750635e4d9363d7d6581e187, type: 3}
+  m_TestWorkshopPrefab: {fileID: 0}
+  m_TestFactoryPrefab: {fileID: 8058404529096070168, guid: 51284e87ed3b510479fd2e95a7b5617e, type: 3}
+  m_ConveyorButtonImg: {fileID: 0}
+  m_TestWorkshopButtonImg: {fileID: 0}
+  m_TestFactoryButtonImg: {fileID: 0}
+  m_TestItemPrefab: {fileID: 0}
+  m_StartConveyor: {fileID: 0}
+  m_IsPlacingConveyor: 0
+  testpoint: {x: 0, y: 0}
+  testpoint2: {x: 0, y: 0}
+  m_HeldHandleDirection: 0
+  m_PlannedConveyors: []
+  m_ConveyorSprite: {fileID: 21300000, guid: 5423ff8ea9bc35343a05f3a3b854e003, type: 3}
+  m_TotalPlacedSegments: 0
+  m_CurrentTempSpriteRotation: 0
