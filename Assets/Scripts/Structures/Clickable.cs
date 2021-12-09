@@ -48,12 +48,20 @@ public class Clickable : MonoBehaviour
 
     protected virtual void HandleInput()
     {
-        if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
+        if (Input.GetMouseButtonDown(1) && GameManager.s_Instance.m_CurrentSelection == this)
         {
-
             if (GameManager.s_Instance.m_IsPlacingConveyor)
             {
                 GameManager.s_Instance.StopPlanning();
+            }
+        }
+        if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
+        {
+
+
+            if (GameManager.s_Instance.m_IsPlacingConveyor)
+            {
+                GameManager.s_Instance.ConfirmConveyorPlan();
             }
 
             //gameObject.name = "clicked";
@@ -193,17 +201,20 @@ public class Clickable : MonoBehaviour
         
     }
 
-    public void SetTempSprite(Sprite sprite)
+    public void SetTempSprite(Sprite sprite, float rotation)
     {
         m_TemporarySprite = sprite;
         m_TemporaryRenderer.sprite = m_TemporarySprite;
         m_TemporaryRenderer.color = Color.yellow;
+
+        m_TemporaryRenderer.transform.eulerAngles = new Vector3(0, 0, rotation);
+        m_TemporaryRenderer.enabled = true;
     }
 
     public void ClearTempSprite()
     {
         m_TemporaryRenderer.sprite = null;
-        //m_TemporaryRenderer.enabled = false;
+        m_TemporaryRenderer.enabled = false;
     }
 
 

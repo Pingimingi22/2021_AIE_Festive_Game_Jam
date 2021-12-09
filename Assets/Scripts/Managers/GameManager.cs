@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
 
     public int m_TotalPlacedSegments = 0;
 
+    public float m_CurrentTempSpriteRotation = 0;
+
 
 
     private void Awake()
@@ -167,7 +169,8 @@ public class GameManager : MonoBehaviour
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x - requiredSegments, (int)conveyorTile.m_WorldIndex.y);
-                                newTile.SetTempSprite(m_ConveyorSprite);
+                                newTile.SetTempSprite(m_ConveyorSprite, 180);
+                                m_CurrentTempSpriteRotation = 180;
 
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
@@ -191,8 +194,8 @@ public class GameManager : MonoBehaviour
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x + requiredSegments, (int)conveyorTile.m_WorldIndex.y);
-                                newTile.SetTempSprite(m_ConveyorSprite);
-
+                                newTile.SetTempSprite(m_ConveyorSprite, 0);
+                                m_CurrentTempSpriteRotation = 0;
 
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
@@ -260,7 +263,8 @@ public class GameManager : MonoBehaviour
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y - requiredSegments);
-                                newTile.SetTempSprite(m_ConveyorSprite);
+                                newTile.SetTempSprite(m_ConveyorSprite, -90);
+                                m_CurrentTempSpriteRotation = -90;
 
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
@@ -287,7 +291,9 @@ public class GameManager : MonoBehaviour
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y + requiredSegments);
-                                newTile.SetTempSprite(m_ConveyorSprite);
+                                newTile.SetTempSprite(m_ConveyorSprite, 90);
+
+                                m_CurrentTempSpriteRotation = 90;
 
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
@@ -423,6 +429,22 @@ public class GameManager : MonoBehaviour
     {
         m_IsPlacingConveyor = false;
         ClearAllPlannedConveyor();
+    }
+
+    public void ConfirmConveyorPlan()
+    {
+        for (int i = 0; i < m_PlannedConveyors.Count; i++)
+        {
+            Clickable planClickable = m_PlannedConveyors[i].gameObject.GetComponent<Clickable>();
+
+            Clickable newRealConveyor = GameObject.Instantiate(m_CurrentPlaceable);
+            newRealConveyor.transform.position = planClickable.transform.position;
+            newRealConveyor.ClearTempSprite(); // Newly instantiated conveyors have their temporary renderered enabled so I hide it like this.
+
+            SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
+            newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
+        }
+        StopPlanning();        
     }
     
 }
