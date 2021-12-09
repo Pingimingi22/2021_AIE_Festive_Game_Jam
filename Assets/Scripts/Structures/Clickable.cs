@@ -31,6 +31,17 @@ public class Clickable : MonoBehaviour
 
 	private void OnMouseOver()
 	{
-        Debug.Log("Testing mouse over function.");
+        //Debug.Log("Testing mouse over function.");
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Clicked on tile.");
+        }
 	}
+
+    private void DrawSelectionOverlay()
+    {
+        
+    }
+
+
 }
