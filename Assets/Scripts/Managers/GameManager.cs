@@ -117,9 +117,9 @@ public class GameManager : MonoBehaviour
 
     public Clickable GetTile(int x, int y)
     {
-        if (x < m_Width && x > 0)
+        if (x < m_Width && x > -1)
         {
-            if (y < m_Height && y > 0)
+            if (y < m_Height && y > -1)
             {
                 // Passed in a valid location on the grid.
                 return m_WorldGrid[x][y];
