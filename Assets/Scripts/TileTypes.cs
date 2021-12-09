@@ -7,7 +7,8 @@ public enum TileTypes
 { 
     BG,
     CONVEYOR,
-    CONVEYOR_HANDLE
+    CONVEYOR_HANDLE,
+    BUILDING
 }
 //public class TileTypes : MonoBehaviour
 //{
