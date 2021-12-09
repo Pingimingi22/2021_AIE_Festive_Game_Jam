@@ -94,6 +94,19 @@ public class Clickable : MonoBehaviour
                 // The placed item is a structure, we have to connect it to the world grid.
                 Structure newTileStructure = newTile.GetComponent<Structure>();
                 newTileStructure.Connect();
+
+                
+                if (GameManager.s_Instance.m_CurrentPlaceable is Conveyor)
+                {
+                    Conveyor newTileConveyor = newTile.GetComponent<Conveyor>();
+                    
+
+                    newTileConveyor.ResetConnections();
+                    newTileConveyor.ClearConnections();
+
+                    // Check if we have to connect things now that we've rotated.
+                    newTileConveyor.Connect();
+                }
             }
 
 

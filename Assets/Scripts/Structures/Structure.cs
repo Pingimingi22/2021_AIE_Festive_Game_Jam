@@ -38,35 +38,35 @@ public class Structure : Clickable
         if (northTile && northTile.m_Type == TileTypes.CONVEYOR)
         {
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[0] = 1;
+            m_ConnectionArray.m_InputOutput[0] = 1;
 
             Structure northStructure = (Structure)northTile;
-            northStructure.m_ConnectionArray.m_Connections[1] = 1;
+            northStructure.m_ConnectionArray.m_InputOutput[1] = 1;
 
         }
         if (southTile && southTile.m_Type == TileTypes.CONVEYOR)
         {
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[1] = 1;
+            m_ConnectionArray.m_InputOutput[1] = 1;
 
             Structure southStructure = (Structure)southTile;
-            southStructure.m_ConnectionArray.m_Connections[0] = 1;
+            southStructure.m_ConnectionArray.m_InputOutput[0] = 1;
         }
         if (eastTile && eastTile.m_Type == TileTypes.CONVEYOR)
         {
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[2] = 1;
+            m_ConnectionArray.m_InputOutput[2] = 1;
 
             Structure eastStructure = (Structure)eastTile;
-            eastStructure.m_ConnectionArray.m_Connections[3] = 1;
+            eastStructure.m_ConnectionArray.m_InputOutput[3] = 1;
         }
         if (westTile && westTile.m_Type == TileTypes.CONVEYOR)
         {
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[3] = 1;
+            m_ConnectionArray.m_InputOutput[3] = 1;
 
             Structure westStructure = (Structure)westTile;
-            westStructure.m_ConnectionArray.m_Connections[2] = 1;
+            westStructure.m_ConnectionArray.m_InputOutput[2] = 1;
         }
     }
 }
