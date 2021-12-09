@@ -49,10 +49,12 @@ public class GameManager : MonoBehaviour
 
     public Sprite m_ConveyorSprite;
 
+    public int m_TotalPlacedSegments = 0;
 
 
-	private void Awake()
-	{
+
+    private void Awake()
+    {
         if (s_Instance == null)
         {
             s_Instance = this;
@@ -61,10 +63,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("You have more than 1 GameManager in the scene!");
         }
-	}
+    }
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         BoxCollider2D collider = m_BackgroundTilePrefab.GetComponent<BoxCollider2D>();
 
@@ -114,7 +116,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
 
 
-            
+
             if (Mathf.Abs(xDistance) > Mathf.Abs(yDistance))
             {
                 int requiredSegments = (int)(Mathf.Abs(xDistance) / 0.32f);
@@ -133,7 +135,7 @@ public class GameManager : MonoBehaviour
                 else
                     testpoint2.x = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.x + requiredSegments * 0.32f;
 
-                if (m_PlannedConveyors.Count - 1 > requiredSegments)
+                if (m_TotalPlacedSegments > requiredSegments)
                 {
                     // We need to delete some of the planned conveyor belts.
                     //int amountOfExtra = m_PlannedConveyors.Count - requiredSegments;
@@ -142,22 +144,38 @@ public class GameManager : MonoBehaviour
                     //    GameObject.Destroy(m_PlannedConveyors[amountOfExtra + m_PlannedConveyors.Count]);
                     //    m_PlannedConveyors.RemoveAt(amountOfExtra + m_PlannedConveyors.Count);
                     //}
+
+                    int amountOfExtra = m_TotalPlacedSegments - requiredSegments;
+                    for (int i = m_PlannedConveyors.Count - 1; i > requiredSegments - 1; i--)
+                    {
+                        m_PlannedConveyors[i].GetComponent<Clickable>().ClearTempSprite();
+                        m_PlannedConveyors.RemoveAt(i);
+                        m_TotalPlacedSegments--;
+                    }
+                    //m_PlannedConveyors.Clear();
+
                     int hi = 5;
                 }
 
                 for (int i = 0; i < requiredSegments; i++)
                 {
-
-                    
                     if (xDistance < 0)
                     {
                         if (m_HeldHandleDirection == HANDLE_TYPE.LEFT)
-                        { 
+                        {
                             for (int j = 0; j < requiredSegments; j++)
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x - requiredSegments, (int)conveyorTile.m_WorldIndex.y);
                                 newTile.SetTempSprite(m_ConveyorSprite);
+
+                                if (m_TotalPlacedSegments < requiredSegments)
+                                {
+                                    m_PlannedConveyors.Add(newTile.gameObject);
+                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    m_TotalPlacedSegments++;
+                                }
+
                             }
 
                             //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
@@ -174,6 +192,15 @@ public class GameManager : MonoBehaviour
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x + requiredSegments, (int)conveyorTile.m_WorldIndex.y);
                                 newTile.SetTempSprite(m_ConveyorSprite);
+
+
+                                if (m_TotalPlacedSegments < requiredSegments)
+                                {
+                                    m_PlannedConveyors.Add(newTile.gameObject);
+                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    m_TotalPlacedSegments++;
+                                }
+
                             }
 
                             //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
@@ -197,21 +224,54 @@ public class GameManager : MonoBehaviour
                     testpoint2.y = /*m_StartConveyor.position.x + 0.32f / 2) + */ m_StartConveyor.position.y + requiredSegments * 0.32f;
 
 
+
+                if (m_TotalPlacedSegments > requiredSegments)
+                {
+                    // We need to delete some of the planned conveyor belts.
+                    //int amountOfExtra = m_PlannedConveyors.Count - requiredSegments;
+                    //for (int i = amountOfExtra; i > 0; i--)
+                    //{
+                    //    GameObject.Destroy(m_PlannedConveyors[amountOfExtra + m_PlannedConveyors.Count]);
+                    //    m_PlannedConveyors.RemoveAt(amountOfExtra + m_PlannedConveyors.Count);
+                    //}
+
+                    int amountOfExtra = m_TotalPlacedSegments - requiredSegments;
+                    for (int i = m_PlannedConveyors.Count - 1; i > requiredSegments - 1; i--)
+                    {
+                        m_PlannedConveyors[i].GetComponent<Clickable>().ClearTempSprite();
+                        m_PlannedConveyors.RemoveAt(i);
+                        m_TotalPlacedSegments--;
+                    }
+                    //m_PlannedConveyors.Clear();
+
+                    int hi = 5;
+                }
+
+
                 for (int i = 0; i < requiredSegments; i++)
                 {
 
 
                     if (yDistance < 0)
                     {
-                        if (m_HeldHandleDirection == HANDLE_TYPE.UP)
-                        { 
+                        if (m_HeldHandleDirection == HANDLE_TYPE.DOWN)
+                        {
                             for (int j = 0; j < requiredSegments; j++)
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y - requiredSegments);
                                 newTile.SetTempSprite(m_ConveyorSprite);
+
+                                if (m_TotalPlacedSegments < requiredSegments)
+                                {
+                                    m_PlannedConveyors.Add(newTile.gameObject);
+                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    m_TotalPlacedSegments++;
+                                }
                             }
 
+
+                            
                             //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
                             //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
                             //m_PlannedConveyors.Add(newPlannedConveyor);
@@ -222,13 +282,22 @@ public class GameManager : MonoBehaviour
                     {
 
                         if (m_HeldHandleDirection == HANDLE_TYPE.UP)
-                        { 
+                        {
                             for (int j = 0; j < requiredSegments; j++)
                             {
                                 Clickable conveyorTile = m_StartConveyor.GetComponent<Clickable>();
                                 Clickable newTile = GetTile((int)conveyorTile.m_WorldIndex.x, (int)conveyorTile.m_WorldIndex.y + requiredSegments);
                                 newTile.SetTempSprite(m_ConveyorSprite);
+
+                                if (m_TotalPlacedSegments < requiredSegments)
+                                {
+                                    m_PlannedConveyors.Add(newTile.gameObject);
+                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    m_TotalPlacedSegments++;
+                                }
                             }
+
+
 
                             //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
                             //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
@@ -250,8 +319,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	private void OnDrawGizmos()
-	{
+    private void OnDrawGizmos()
+    {
         Gizmos.DrawSphere(testpoint, 0.1f);
 
         if (m_StartConveyor)
@@ -260,11 +329,11 @@ public class GameManager : MonoBehaviour
             Gizmos.DrawLine(m_StartConveyor.position, testpoint2);
             Gizmos.DrawSphere(m_StartConveyor.position, 0.05f);
         }
-		
-	}
+
+    }
 
 
-	public void GenerateBackground()
+    public void GenerateBackground()
     {
         m_WorldGrid = new List<List<Clickable>>();
         for (int i = 0; i < m_Width; i++)
@@ -321,7 +390,7 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
-        
+
     }
 
     public void UpdateTile(int xIndex, int yIndex, Clickable newTile)
@@ -335,5 +404,25 @@ public class GameManager : MonoBehaviour
         selectionRenderer.transform.localScale = new Vector3(width, height, 1);
     }
 
+    public void ClearAllPlannedConveyor()
+    {
+        for (int i = m_PlannedConveyors.Count - 1; i > -1; i--)
+        {
+            m_PlannedConveyors[i].GetComponent<Clickable>().ClearTempSprite();
+            m_PlannedConveyors.RemoveAt(i);
+            m_TotalPlacedSegments--;
+        }
+
+        if (m_PlannedConveyors.Count > 0)
+        {
+            Debug.LogError("ClearAllPlannedConveyor() did not clear all!");
+        }
+    }
+
+    public void StopPlanning()
+    {
+        m_IsPlacingConveyor = false;
+        ClearAllPlannedConveyor();
+    }
     
 }

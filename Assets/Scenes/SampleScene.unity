@@ -287,6 +287,7 @@ MonoBehaviour:
   m_HeldHandleDirection: 0
   m_PlannedConveyors: []
   m_ConveyorSprite: {fileID: 21300000, guid: 5423ff8ea9bc35343a05f3a3b854e003, type: 3}
+  m_TotalPlacedSegments: 0
 --- !u!4 &1363697654
 Transform:
   m_ObjectHideFlags: 0
@@ -523,21 +524,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 25428710760532066, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 25428710760532066, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3416786477968335883, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
       propertyPath: m_Name
       value: SelectionOverlay
-      objectReference: {fileID: 0}
-    - target: {fileID: 7926481453643496533, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
