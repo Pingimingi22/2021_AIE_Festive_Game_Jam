@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public enum CONVEYOR_DIRECTION
-{ 
+{
     EAST,
     SOUTH,
     WEST,
@@ -27,18 +27,38 @@ public class Conveyor : Structure
     public CONVEYOR_DIRECTION m_Direction;
 
 
-	// Start is called before the first frame update
-	protected override void Start()
-	{
-        base.Start();
-	}
+    public int m_NextConnectionToSend = 0; // Tracks the next connecting conveyor to send to.
 
-	// Update is called once per frame
-	protected override void Update()
+    public int m_TotalConveyorConnections = 0;
+
+
+    // Hardcoding connections please work
+    Conveyor m_LeftConnection = null;
+    Conveyor m_RightConnection = null;
+    Conveyor m_UpConnection = null;
+    Conveyor m_DownConnection = null;
+
+    List<Conveyor> m_HardConnections = new List<Conveyor>();
+
+
+
+    // Start is called before the first frame update
+    protected override void Start()
     {
-        HandleInput();
+        base.Start();
     }
 
+    // Update is called once per frame
+    protected override void Update()
+    {
+        HandleInput();
+
+    }
+
+    public void AddItem(Item itemToAdd)
+    {
+        itemToAdd.transform.position = transform.position;
+    }
     protected override void HandleInput()
     {
         if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
@@ -83,7 +103,7 @@ public class Conveyor : Structure
         Clickable eastTile = manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y);
         Clickable westTile = manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y);
 
-        
+
 
 
         if (northTile && northTile.m_Type == TileTypes.CONVEYOR)
@@ -95,15 +115,23 @@ public class Conveyor : Structure
             //Conveyor northConveyor = (Conveyor)northStructure;
             //northConveyor.ClearConnections();
             //northConveyor.ResetInputs();
-            
+
             //ClearConnections();
             //ResetInputs();
             //northConveyor.Connect();
             //northConveyor.GetTotalConnections();
 
+            //ClearConnections();
+            //ResetInputs();
+
+
+
+
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
-            northStructure.m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_Connections[3];
+            m_ConnectionArray.m_Connections[3] += m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
+            northStructure.m_ConnectionArray.m_Connections[1] += m_ConnectionArray.m_InputOutput[3] + northStructure.m_ConnectionArray.m_InputOutput[1];
+
+
 
         }
         if (southTile && southTile.m_Type == TileTypes.CONVEYOR)
@@ -125,8 +153,12 @@ public class Conveyor : Structure
             //ResetInputs();
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[1] = m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
-            southStructure.m_ConnectionArray.m_Connections[3] = m_ConnectionArray.m_Connections[1];
+            m_ConnectionArray.m_Connections[1] += m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
+
+
+
+
+            southStructure.m_ConnectionArray.m_Connections[3] += m_ConnectionArray.m_InputOutput[1] + southStructure.m_ConnectionArray.m_InputOutput[3];
 
         }
         if (eastTile && eastTile.m_Type == TileTypes.CONVEYOR)
@@ -142,9 +174,14 @@ public class Conveyor : Structure
             //eastConveyor.Connect();
             //eastConveyor.GetTotalConnections();
 
+            //ClearConnections();
+            //ResetInputs();
+
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
-            eastStructure.m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_Connections[0];
+            m_ConnectionArray.m_Connections[0] += m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
+            eastStructure.m_ConnectionArray.m_Connections[2] += m_ConnectionArray.m_InputOutput[0] + eastStructure.m_ConnectionArray.m_InputOutput[2];
+
+
 
         }
         if (westTile && westTile.m_Type == TileTypes.CONVEYOR)
@@ -168,17 +205,23 @@ public class Conveyor : Structure
 
 
             // Surrounding thing is a conveyor so we have to hook up its connection.
-            m_ConnectionArray.m_Connections[2] = m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
-            westStructure.m_ConnectionArray.m_Connections[0] = m_ConnectionArray.m_Connections[2];
+            m_ConnectionArray.m_Connections[2] += m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
+            westStructure.m_ConnectionArray.m_Connections[0] += m_ConnectionArray.m_InputOutput[2] + westStructure.m_ConnectionArray.m_InputOutput[0];
+
+
 
         }
+
+        GetTotalConnections();
     }
+
+    //just reset connecting node not all nodes on connecting conveyor
 
 
     /// <summary>
     /// Sets connection back to what they should be based on direction.
     /// </summary>
-    public void ResetConnections()
+    public void ResetInputs()
     {
         // Setting input and output nodes for the conveyor belt.
         if (m_Direction == CONVEYOR_DIRECTION.EAST)
@@ -189,6 +232,13 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[1] = 0;
             m_ConnectionArray.m_InputOutput[3] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[2] = -2;
+            m_ConnectionArray.m_Connections[1] = -1;
+            m_ConnectionArray.m_Connections[3] = -1;
+
+
         }
         else if (m_Direction == CONVEYOR_DIRECTION.WEST)
         {
@@ -198,6 +248,12 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[1] = 0;
             m_ConnectionArray.m_InputOutput[3] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[0] = -2;
+            m_ConnectionArray.m_Connections[1] = -1;
+            m_ConnectionArray.m_Connections[3] = -1;
+
         }
         else if (m_Direction == CONVEYOR_DIRECTION.NORTH)
         {
@@ -207,6 +263,11 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[0] = 0;
             m_ConnectionArray.m_InputOutput[2] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[1] = -2;
+            m_ConnectionArray.m_Connections[0] = -1;
+            m_ConnectionArray.m_Connections[2] = -1;
         }
         else if (m_Direction == CONVEYOR_DIRECTION.SOUTH)
         {
@@ -216,6 +277,12 @@ public class Conveyor : Structure
             // Clearing old connections
             m_ConnectionArray.m_InputOutput[0] = 0;
             m_ConnectionArray.m_InputOutput[2] = 0;
+
+            // Setting output for connections to -1 so they never add to 1.
+            m_ConnectionArray.m_Connections[3] = -2;
+            m_ConnectionArray.m_Connections[0] = -1;
+            m_ConnectionArray.m_Connections[2] = -1;
+
         }
     }
 
@@ -223,6 +290,7 @@ public class Conveyor : Structure
     {
         for (int i = 0; i < m_ConnectionArray.m_Connections.Count; i++)
         {
+            //if(m_ConnectionArray.m_Connections[i] > 0)
             m_ConnectionArray.m_Connections[i] = 0;
         }
     }
@@ -283,7 +351,7 @@ public class Conveyor : Structure
                 m_NextConnectionToSend = 0;
             else
                 m_NextConnectionToSend++;
-     
+
         }
         else
         {
@@ -331,7 +399,7 @@ public class Conveyor : Structure
 
         //Debug.LogError("Error in GetDirectionFromNum!");
         return dirAttempt;
-            
+
     }
 
     public Clickable GetFirstConnection()
@@ -348,7 +416,7 @@ public class Conveyor : Structure
                     continue;
                 }
                 else
-                { 
+                {
                     CONVEYOR_DIRECTION dir = GetDirectionFromNum(i);
                     return GetConnection(dir);
                 }
