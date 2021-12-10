@@ -492,7 +492,18 @@ public class GameManager : MonoBehaviour
             if(i != m_PlannedConveyors.Count - 1) // Don't want to link the last conveyor because it might fall off of the line.
                 newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
 
+            Conveyor startConveyor = m_StartConveyor.GetComponent<Conveyor>();
+            if (startConveyor == null)
+            {
+                int hi = 5;
+            }
             m_StartConveyor.GetComponent<Conveyor>().SetConnection(GetNumDirFromHandleDir(m_HeldHandleDirection), 1);
+
+            // We have to account for the fact that factory conveyor belts are not truly there. So to get around this we will place a conveyor belt manually there.
+            //if (m_StartConveyor == null)
+            //{ 
+            //    ManuallyPlaceConveyor(
+            //}
 
             if (i == m_PlannedConveyors.Count - 1)
             {
@@ -600,5 +611,7 @@ public class GameManager : MonoBehaviour
 
         }
     }
+
+    
 
 }
