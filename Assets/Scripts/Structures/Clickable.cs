@@ -80,7 +80,7 @@ public class Clickable : MonoBehaviour
             }
             else
             {
-                GameManager.s_Instance.Click(this);
+                //GameManager.s_Instance.Click(this);
             }
         }
         

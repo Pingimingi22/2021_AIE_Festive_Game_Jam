@@ -98,6 +98,9 @@ public class GameManager : MonoBehaviour
 
 
     bool m_IsHoveringOverUI = false;
+
+
+    public RectTransform m_HUDRect;
     
 
     private void Awake()
@@ -162,11 +165,17 @@ public class GameManager : MonoBehaviour
         if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero))
         {
             RaycastHit2D testHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-            if (testHit.transform && testHit.transform.tag == "UI")
+
+            if (Input.mousePosition.x > (0 + (Screen.width - m_HUDRect.rect.width)))
             {
                 m_IsHoveringOverUI = true;
+                Debug.Log("Hovering over UI");
             }
-            else if (testHit.transform && testHit.transform.tag == "Background")
+            else
+                m_IsHoveringOverUI = false;
+            
+
+            if (testHit.transform && testHit.transform.tag == "Background" && !m_IsHoveringOverUI)
             {
                 //Debug.Log("Testing mouse over function.");
                 Clickable clickableThing = testHit.transform.GetComponent<Clickable>();
@@ -755,7 +764,8 @@ public class GameManager : MonoBehaviour
     public void Click(Clickable clickable)
     {
         m_CurrentClicked = clickable;
-        m_CurrentSelection = null;
+        //m_CurrentSelection = null;
+        m_CurrentSelection = clickable;
     }
     public void Unclick()
     {
