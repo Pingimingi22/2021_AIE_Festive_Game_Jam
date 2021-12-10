@@ -59,7 +59,7 @@ public class ConveyorHandle : Clickable
         //Debug.Log("Selected tile is: " + this.gameObject.name);
     }
 
-    protected override void DrawSelectionOverlay(float width, float height, Vector3 position)
+    public override void DrawSelectionOverlay(float width, float height, Vector3 position)
     {
 
         base.DrawSelectionOverlay(width, height, position);

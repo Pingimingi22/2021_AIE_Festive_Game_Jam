@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Conveyor
+  - CraftingBuilding
+  - UI
+  - Background
   layers:
   - Default
   - TransparentFX

@@ -89,16 +89,16 @@ public class Clickable : MonoBehaviour
 
 	protected virtual void OnMouseOver()
 	{
-        //Debug.Log("Testing mouse over function.");
-        if (GameManager.s_Instance.m_CurrentClicked == null || GameManager.s_Instance.m_CurrentClicked == this)
-        { 
-            DrawSelectionOverlay(1, 1, transform.position);
-        }
-        GameManager.s_Instance.SelectTile(this);
-        //Debug.Log("Selected tile is: " + this.gameObject.name);
+        ////Debug.Log("Testing mouse over function.");
+        //if (GameManager.s_Instance.m_CurrentClicked == null || GameManager.s_Instance.m_CurrentClicked == this)
+        //{ 
+        //    DrawSelectionOverlay(1, 1, transform.position);
+        //}
+        //GameManager.s_Instance.SelectTile(this);
+        ////Debug.Log("Selected tile is: " + this.gameObject.name);
 	}
 
-    protected virtual void DrawSelectionOverlay(float width, float height, Vector3 position)
+    public virtual void DrawSelectionOverlay(float width, float height, Vector3 position)
     {
 
         GameManager.s_Instance.PlaceOverlay(position);

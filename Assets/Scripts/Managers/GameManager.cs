@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
 
     public float m_Cash;
     public float m_TimeLeft;
+    public int m_TotalElves = 10;
+    
 
 
     public Clickable m_CurrentSelection;
@@ -56,7 +58,12 @@ public class GameManager : MonoBehaviour
 
     public Text m_CashText;
     public Text m_CurrentlySelectedText;
+    public Text m_TotalElvesText;
 
+    [Header("Building UI References")]
+    public Text m_CurrentlyProducingText;
+    public Image m_CurrentlyProducingImage;
+    public Text m_CurrentElvesText;
 
 	// Storing information for the world map.
 	public List<List<Clickable>> m_WorldGrid;
@@ -90,6 +97,7 @@ public class GameManager : MonoBehaviour
     float m_CameraZoom = 0;
 
 
+    bool m_IsHoveringOverUI = false;
     
 
     private void Awake()
@@ -123,7 +131,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Moving camera stuff.
-       
+
         Vector3 mov = Vector3.zero;
         if (/*Input.mousePosition.x > Screen.width - (Screen.width / 8)*/Input.GetKey(KeyCode.D))
         {
@@ -146,12 +154,31 @@ public class GameManager : MonoBehaviour
             Camera.main.transform.position += mov;
         }
         m_CameraZoom = Input.mouseScrollDelta.y * 0.1f;
-           
+
         Camera.main.orthographicSize -= m_CameraZoom;
 
 
 
+        if (Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero))
+        {
+            RaycastHit2D testHit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (testHit.transform && testHit.transform.tag == "UI")
+            {
+                m_IsHoveringOverUI = true;
+            }
+            else if (testHit.transform && testHit.transform.tag == "Background")
+            {
+                //Debug.Log("Testing mouse over function.");
+                Clickable clickableThing = testHit.transform.GetComponent<Clickable>();
+                if (m_CurrentClicked == null || m_CurrentClicked == clickableThing)
+                {
+                    clickableThing.DrawSelectionOverlay(1, 1, clickableThing.transform.position);
+                }
+                SelectTile(clickableThing);
+                //Debug.Log("Selected tile is: " + this.gameObject.name);
+            }
 
+        }
 
 
 
@@ -175,7 +202,7 @@ public class GameManager : MonoBehaviour
             ClearPlaceable();
             Unclick();
         }
-        
+
 
         if (m_IsPlacingConveyor)
         {
@@ -352,7 +379,7 @@ public class GameManager : MonoBehaviour
                             }
 
 
-                            
+
                             //GameObject newPlannedConveyor = GameObject.Instantiate(m_CurrentPlaceable).gameObject;
                             //newPlannedConveyor.transform.position = new Vector3(m_StartConveyor.position.x + -requiredSegments * 0.32f, m_StartConveyor.position.y, 0);
                             //m_PlannedConveyors.Add(newPlannedConveyor);
@@ -400,9 +427,24 @@ public class GameManager : MonoBehaviour
 
 
         }
+        else if (Input.GetMouseButton(0))
+        {
+            Vector2 mousePos = Input.mousePosition;
+
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(mousePos), Vector2.zero);
+
+            testpoint = hit.point;
+
+            if (hit.transform && hit.transform.tag == "CraftingBuilding")
+            {
+                Click(hit.transform.GetComponent<Clickable>());
+            }
+
+        }
 
 
         UpdateGenericUI();
+        UpdateCraftingBuildingUI();
     }
 
     private void OnDrawGizmos()
@@ -691,6 +733,23 @@ public class GameManager : MonoBehaviour
         {
             m_CurrentlySelectedText.text = "Hovering: N/A";
         }
+
+        m_TotalElvesText.text = "Lazy Elves: " + m_TotalElves.ToString();
+
+        m_CurrentlyProducingText.enabled = false;
+        m_CurrentlyProducingImage.enabled = false;
+    }
+
+    public void UpdateCraftingBuildingUI()
+    {
+        if (m_CurrentClicked && m_CurrentClicked.tag == "CraftingBuilding")
+        {
+            ProductionBuilding building = (ProductionBuilding)m_CurrentClicked;
+            m_CurrentElvesText.text = "Elves: " + building.m_CurrentElves.ToString();
+            m_CurrentlyProducingText.enabled = true;
+            m_CurrentlyProducingImage.sprite = building.m_ProductionItem.GetComponent<SpriteRenderer>().sprite;
+            m_CurrentlyProducingImage.enabled = true;
+        }
     }
 
     public void Click(Clickable clickable)
@@ -703,4 +762,17 @@ public class GameManager : MonoBehaviour
         m_CurrentClicked = null;
     }
 
+    public void BuyElf()
+    {
+        if (m_Cash - 5 > 0)
+        {
+            m_TotalElves++;
+            m_Cash -= 5;
+        }
+    }
+    public void SellElf()
+    {
+        m_TotalElves--;
+        m_Cash += 3.5f;
+    }
 }

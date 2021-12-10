@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 3682739754020986193}
   m_Layer: 0
   m_Name: TestFactory
-  m_TagString: Untagged
+  m_TagString: CraftingBuilding
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsClicked: 0
-  m_Type: 0
+  m_Type: 3
   m_ID: 0
   m_WorldIndex: {x: 0, y: 0}
   m_Renderer: {fileID: 0}
