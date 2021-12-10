@@ -186,6 +186,18 @@ public class Clickable : MonoBehaviour
                         {
                             ManuallyPlaceConveyor(i, j, 0);
                         }
+                        if (i == m_WorldIndex.x - 2 && j == m_WorldIndex.y)
+                        {
+                            ManuallyPlaceConveyor(i, j, 180);
+                        }
+                        if (i == m_WorldIndex.x && j == m_WorldIndex.y + 2)
+                        {
+                            ManuallyPlaceConveyor(i, j, 90);
+                        }
+                        if (i == m_WorldIndex.x && j == m_WorldIndex.y - 2)
+                        {
+                            ManuallyPlaceConveyor(i, j, -90);
+                        }
 
                     }
                 }
