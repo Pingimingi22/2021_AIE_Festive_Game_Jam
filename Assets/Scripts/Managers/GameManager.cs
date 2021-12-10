@@ -584,13 +584,15 @@ public class GameManager : MonoBehaviour
             // Have to tell the world that this new conveyor belt should replace the current world index reference.
             m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y] = newRealConveyor;
 
-            SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
-            newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
+            //SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
+            //newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, m_CurrentTempSpriteRotation);
 
+            
             
             
             // Setting inputs/outputs and connections for this confirmed choice of conveyor belts.
             Conveyor newConveyorConveyor = (Conveyor)newRealConveyor;
+            newConveyorConveyor.RotateSprite(m_HeldHandleDirection);
             int connectionNum = GetNumDirFromHandleDir(m_HeldHandleDirection);
 
             if(i != m_PlannedConveyors.Count - 1) // Don't want to link the last conveyor because it might fall off of the line.

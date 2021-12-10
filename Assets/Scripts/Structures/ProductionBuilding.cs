@@ -95,24 +95,24 @@ public class ProductionBuilding : Structure
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-        if (collision.gameObject.tag == "Conveyor")
-        {
-            // Before we add it, we must check if it is already in the list.
+        //if (collision.gameObject.tag == "Conveyor")
+        //{
+        //    // Before we add it, we must check if it is already in the list.
 
-            Conveyor collisionConveyor = collision.gameObject.GetComponent<Conveyor>();
-            Vector3 toConveyor = (collision.transform.position - transform.position).normalized;
-            Vector3 conveyorForward = collisionConveyor.m_SpriteRenderer.transform.right;
+        //    Conveyor collisionConveyor = collision.gameObject.GetComponent<Conveyor>();
+        //    Vector3 toConveyor = (collision.transform.position - transform.position).normalized;
+        //    Vector3 conveyorForward = collisionConveyor.m_SpriteRenderer.transform.right;
 
-            if (Vector3.Dot(toConveyor, conveyorForward) == -1)
-            {
-                Debug.Log("This is an input conveyor belt.");
-            }
-            else
-            { 
-                m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
+        //    if (Vector3.Dot(toConveyor, conveyorForward) == -1)
+        //    {
+        //        Debug.Log("This is an input conveyor belt.");
+        //    }
+        //    else
+        //    { 
+        //        m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
                 
-            }
-        }
+        //    }
+        //}
     }
 
     public void AddElf()
@@ -130,6 +130,15 @@ public class ProductionBuilding : Structure
             m_CurrentElves--;
             GameManager.s_Instance.m_UnusedElves++;
         }
+    }
+
+    public void AddInputConveyor(Conveyor conveyor)
+    {
+        m_InputConveyors.Add(conveyor);
+    }
+    public void AddOutputConveyor(Conveyor conveyor)
+    {
+        m_OutputConveyors.Add(conveyor);
     }
 
 }

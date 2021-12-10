@@ -529,13 +529,15 @@ public class Conveyor : Structure
                 break;
             case HANDLE_TYPE.DOWN:
                 rotationVec.z = -90;
-       
+                m_Direction = CONVEYOR_DIRECTION.SOUTH;
                 break;
             case HANDLE_TYPE.LEFT:
                 rotationVec.z = 180;
+                m_Direction = CONVEYOR_DIRECTION.WEST;
                 break;
             case HANDLE_TYPE.UP:
                 rotationVec.z = 90;
+                m_Direction = CONVEYOR_DIRECTION.NORTH;
                 break;
         }
         m_SpriteRenderer.transform.eulerAngles = rotationVec;
