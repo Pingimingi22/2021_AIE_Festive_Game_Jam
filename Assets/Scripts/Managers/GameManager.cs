@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
     // ui stuff
     SelectedButton m_SelectedButton;
 
+    float m_CameraZoom = 0;
+
 
     
 
@@ -117,7 +119,28 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Moving camera stuff.
-
+       
+        Vector3 mov = Vector3.zero;
+        if (Input.mousePosition.x > Screen.width - (Screen.width / 8))
+        {
+            mov.x += 2 * Time.deltaTime;
+            Camera.main.transform.position += mov;
+        }
+        if (Input.mousePosition.x < 0 + (Screen.width / 8))
+        {
+            mov.x -= 2 * Time.deltaTime;
+            Camera.main.transform.position += mov;
+        }
+        if (Input.mousePosition.y < 0 + (Screen.height / 8))
+        {
+            mov.y -= 2 * Time.deltaTime;
+            Camera.main.transform.position += mov;
+        }
+        if (Input.mousePosition.y > Screen.height - (Screen.width / 8))
+        {
+            mov.y += 2 * Time.deltaTime;
+            Camera.main.transform.position += mov;
+        }
 
 
 
