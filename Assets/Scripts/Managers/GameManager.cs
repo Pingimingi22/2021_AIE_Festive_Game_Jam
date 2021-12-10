@@ -621,6 +621,10 @@ public class GameManager : MonoBehaviour
         {
             m_SelectedButton = SelectedButton.TEST_FACTORY_BUTTON;
         }
+        else if (placeablePrefab == m_TestWorkshopPrefab)
+        {
+            m_SelectedButton = SelectedButton.TEST_WORKSHOP_BUTTON;
+        }
         else
             m_SelectedButton = SelectedButton.NONE;
 
@@ -634,13 +638,14 @@ public class GameManager : MonoBehaviour
 
         m_ConveyorButtonImg.color = Color.white;
         m_TestFactoryButtonImg.color = Color.white;
+        m_TestWorkshopButtonImg.color = Color.white;
     }
 
     public void SelectButton()
     {
         m_ConveyorButtonImg.color = Color.white;
         m_TestFactoryButtonImg.color = Color.white;
-
+        m_TestWorkshopButtonImg.color = Color.white;
 
         switch (m_SelectedButton)
         {
@@ -649,6 +654,9 @@ public class GameManager : MonoBehaviour
                 break;
             case SelectedButton.TEST_FACTORY_BUTTON:
                 m_TestFactoryButtonImg.color = Color.gray;
+                break;
+            case SelectedButton.TEST_WORKSHOP_BUTTON:
+                m_TestWorkshopButtonImg.color = Color.gray;
                 break;
 
         }

@@ -57,7 +57,7 @@ MonoBehaviour:
   m_TotalGiftsSent: 0
   m_HalfExtentBG: {x: 0, y: 0, z: 0}
   m_ConveyorPrefab: {fileID: 178157150628231687, guid: 0d1c3103750635e4d9363d7d6581e187, type: 3}
-  m_TestWorkshopPrefab: {fileID: 0}
+  m_TestWorkshopPrefab: {fileID: 8360163351113172115, guid: e26f6542f2a01674abef4b6769f887fe, type: 3}
   m_TestFactoryPrefab: {fileID: 8058404529096070168, guid: 51284e87ed3b510479fd2e95a7b5617e, type: 3}
   m_ConveyorButtonImg: {fileID: 0}
   m_TestWorkshopButtonImg: {fileID: 0}
