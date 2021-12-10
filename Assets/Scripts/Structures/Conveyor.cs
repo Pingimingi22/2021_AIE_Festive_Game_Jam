@@ -483,4 +483,20 @@ public class Conveyor : Structure
         m_ConnectionArray.m_Connections[2] = west;
         m_ConnectionArray.m_Connections[3] = north;
     }
+
+    public List<Conveyor> GetSurroundingConveyors(int dir, int excludeDirNum)
+    {
+        List<Clickable> surroundingTiles = GetSurroundingTiles(dir, excludeDirNum);
+        List<Conveyor> surroundingConveyors = new List<Conveyor>();
+
+        for (int i = 0; i < surroundingTiles.Count; i++)
+        {
+            if (surroundingTiles[i].m_Type == TileTypes.CONVEYOR)
+            {
+                surroundingConveyors.Add((Conveyor)surroundingTiles[i]);
+            }
+        }
+
+        return surroundingConveyors;
+    }
 }
