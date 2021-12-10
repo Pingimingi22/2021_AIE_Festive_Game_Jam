@@ -97,7 +97,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4583519073536015501
 Transform:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4167253122368308580
 Transform:
   m_ObjectHideFlags: 0
@@ -285,7 +285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2668981487137035447
 Transform:
   m_ObjectHideFlags: 0
@@ -567,13 +567,13 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6478622116402118194}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0030094385, y: 0.0030095577}
+  m_Offset: {x: -0.01356262, y: -0.010894775}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -584,7 +584,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2729819, y: 1.2007551}
+  m_Size: {x: 1.7181696, y: 1.5224493}
   m_EdgeRadius: 0
 --- !u!50 &499542009776992609
 Rigidbody2D:
@@ -633,11 +633,11 @@ MonoBehaviour:
     m_InputOutput: 
     m_Connections: 
   m_IsProducing: 0
-  m_ResourceCost: 0
+  m_ResourceCost: 5
   m_CurrentResource: 0
   m_ProductionItem: {fileID: 0}
   m_CurrentProgress: 0
-  m_ProductionTime: 0
+  m_ProductionTime: 3
   m_ProductionRate: 0
   ItemQueue: []
   m_Fuse1: {fileID: 0}
@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Fuse4: {fileID: 0}
   m_Fuse5: {fileID: 0}
   m_OurRenderer: {fileID: 0}
+  m_PresentLaunchPrefab: {fileID: 2716829704765305879, guid: 1f6177af7ec6b5244a50c2c8d80d043f, type: 3}
 --- !u!1 &8885484631257312057
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,7 +744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7481087443133697664
 Transform:
   m_ObjectHideFlags: 0
