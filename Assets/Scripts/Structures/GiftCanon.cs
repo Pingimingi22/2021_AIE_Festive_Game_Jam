@@ -15,7 +15,17 @@ public class GiftCanon : Structure
     public float m_CurrentProgress;
     public float m_ProductionTime;
     public float m_ProductionRate;
+
+
     public List<GameObject> ItemQueue = new List<GameObject>();
+
+    public Sprite m_Fuse1;
+    public Sprite m_Fuse2;
+    public Sprite m_Fuse3;
+    public Sprite m_Fuse4;
+    public Sprite m_Fuse5;
+
+    public SpriteRenderer m_Renderer;
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -38,9 +48,10 @@ public class GiftCanon : Structure
     void Start()
     {
         //m_ProductionRate = 60 / m_ProductionTime + 60/(2*m_ProductionTime)* m_CurrentElves;  prodcution rate in fps?? calculates items per minute
-        
-
-        if (m_CurrentResource >= m_ResourceCost)
+    }
+    void Update()
+    {
+        if (m_CurrentResource >= m_ResourceCost && !m_IsProducing)
         {
             m_IsProducing = true;
             m_CurrentResource = m_CurrentResource - m_ResourceCost;
@@ -88,38 +99,44 @@ public class GiftCanon : Structure
 
         }
 
+
+
         if (m_IsProducing)
         {
-            m_CurrentProgress = m_CurrentProgress - 1;
-            if (m_CurrentProgress <= 0.8*m_ProductionTime)
-            { 
+            m_CurrentProgress += Time.deltaTime;
+            if (m_CurrentProgress <= 0.8 * m_ProductionTime)
+            {
                 //change to fuse 2
+                //m_Renderer.sprite = m_Fuse2;
             }
             else if (m_CurrentProgress <= 0.6 * m_ProductionTime)
             {
                 //change to fuse 3
+                //m_Renderer.sprite = m_Fuse3;
             }
             else if (m_CurrentProgress <= 0.4 * m_ProductionTime)
             {
                 //change to fuse 4
+                //m_Renderer.sprite = m_Fuse4;
             }
             else if (m_CurrentProgress <= 0.2 * m_ProductionTime)
             {
                 //change to fuse 5
+                //m_Renderer.sprite = m_Fuse5;
+            }
+
+            // We are done producing.
+            if (m_CurrentProgress >= m_ProductionTime)
+            {
+                m_IsProducing = false;
+                m_CurrentProgress = 0;
+
+                //instantiate present shooting through the sky
+                //change to fuse 1
+
+                GameManager.s_Instance.m_Cash += 100;
+                
             }
         }
-
-        if (m_CurrentProgress == 0)
-        {
-            m_CurrentProgress = m_ProductionTime;
-            m_IsProducing = false;
-            //instantiate present shooting through the sky
-            //change to fuse 1
-        }
-
-    }
-    void Update()
-    {
-        
     }
 }
