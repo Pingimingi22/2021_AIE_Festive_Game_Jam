@@ -41,6 +41,8 @@ public class Conveyor : Structure
     List<Conveyor> m_HardConnections = new List<Conveyor>();
 
 
+    public SpriteRenderer m_SpriteRenderer;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -513,5 +515,26 @@ public class Conveyor : Structure
         return surroundingConveyors;
     }
 
+    public void RotateSprite(HANDLE_TYPE direction)
+    {
+        Vector3 rotationVec = Vector3.zero;
+        switch (direction)
+        {
+            case HANDLE_TYPE.RIGHT:
+                
+                break;
+            case HANDLE_TYPE.DOWN:
+                rotationVec.z = 90;
+       
+                break;
+            case HANDLE_TYPE.LEFT:
+                rotationVec.z = 180;
+                break;
+            case HANDLE_TYPE.UP:
+                rotationVec.z = -90;
+                break;
+        }
+        m_SpriteRenderer.transform.eulerAngles = rotationVec;
+    }
     
 }

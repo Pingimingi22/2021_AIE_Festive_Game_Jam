@@ -537,6 +537,7 @@ public class GameManager : MonoBehaviour
                 int hi = 5;
             }
             m_StartConveyor.GetComponent<Conveyor>().SetConnection(GetNumDirFromHandleDir(m_HeldHandleDirection), 1);
+            startConveyor.RotateSprite(m_HeldHandleDirection);
 
             // We have to account for the fact that factory conveyor belts are not truly there. So to get around this we will place a conveyor belt manually there.
             //if (m_StartConveyor == null)

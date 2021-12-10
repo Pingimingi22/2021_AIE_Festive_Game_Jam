@@ -75,6 +75,7 @@ public class ProductionBuilding : Structure
             Item newItem = GameObject.Instantiate(m_ProductionItem);
             newItem.m_CurrentConveyor = conveyorChosen;
             conveyorChosen.AddItem(newItem);
+            
 
             if (m_CurrentConveyorBelt + 1 > m_AttachedConveyors.Count - 1)
             {
@@ -89,5 +90,15 @@ public class ProductionBuilding : Structure
         }
     }
 
-    
+
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+        if (collision.gameObject.tag == "Conveyor")
+        {
+            m_AttachedConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
+        }
+    }
+
+
 }
