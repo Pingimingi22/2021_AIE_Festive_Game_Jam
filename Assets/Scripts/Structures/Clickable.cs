@@ -42,7 +42,7 @@ public class Clickable : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
-        Debug.Log("Parent update.");
+        //Debug.Log("Parent update.");
         HandleInput();
     }
 
@@ -83,10 +83,10 @@ public class Clickable : MonoBehaviour
 
 	protected virtual void OnMouseOver()
 	{
-        Debug.Log("Testing mouse over function.");
+        //Debug.Log("Testing mouse over function.");
         DrawSelectionOverlay(1, 1, transform.position);
         GameManager.s_Instance.SelectTile(this);
-        Debug.Log("Selected tile is: " + this.gameObject.name);
+        //Debug.Log("Selected tile is: " + this.gameObject.name);
 	}
 
     protected virtual void DrawSelectionOverlay(float width, float height, Vector3 position)

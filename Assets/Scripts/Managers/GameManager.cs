@@ -116,6 +116,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Moving camera stuff.
+
+
+
+
+
+
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             // Place a present on the conveyer belt that the mouse is currently over.
@@ -151,7 +159,7 @@ public class GameManager : MonoBehaviour
             Vector2 toHit = (Vector2)hit.point - (Vector2)m_StartConveyor.position;
             testpoint = hit.point;
 
-            Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
+            //Debug.Log("xDistance: " + Mathf.Abs(xDistance) + ", yDistance: " + Mathf.Abs(yDistance));
 
 
 
@@ -211,7 +219,7 @@ public class GameManager : MonoBehaviour
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
                                     m_PlannedConveyors.Add(newTile.gameObject);
-                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    //Debug.Log("==================================== Added conveyor to list =========================================");
                                     m_TotalPlacedSegments++;
                                 }
 
@@ -236,7 +244,7 @@ public class GameManager : MonoBehaviour
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
                                     m_PlannedConveyors.Add(newTile.gameObject);
-                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    //Debug.Log("==================================== Added conveyor to list =========================================");
                                     m_TotalPlacedSegments++;
                                 }
 
@@ -305,7 +313,7 @@ public class GameManager : MonoBehaviour
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
                                     m_PlannedConveyors.Add(newTile.gameObject);
-                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    //Debug.Log("==================================== Added conveyor to list =========================================");
                                     m_TotalPlacedSegments++;
                                 }
                             }
@@ -334,7 +342,7 @@ public class GameManager : MonoBehaviour
                                 if (m_TotalPlacedSegments < requiredSegments)
                                 {
                                     m_PlannedConveyors.Add(newTile.gameObject);
-                                    Debug.Log("==================================== Added conveyor to list =========================================");
+                                    //Debug.Log("==================================== Added conveyor to list =========================================");
                                     m_TotalPlacedSegments++;
                                 }
                             }
@@ -415,7 +423,7 @@ public class GameManager : MonoBehaviour
 
         if (tileToSelect.m_Type == TileTypes.CONVEYOR)
         {
-            Debug.Log("test");
+            //Debug.Log("test");
         }
     }
 
@@ -457,7 +465,7 @@ public class GameManager : MonoBehaviour
 
         if (m_PlannedConveyors.Count > 0)
         {
-            Debug.LogError("ClearAllPlannedConveyor() did not clear all!");
+            //Debug.LogError("ClearAllPlannedConveyor() did not clear all!");
         }
     }
 

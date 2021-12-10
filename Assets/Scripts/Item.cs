@@ -62,7 +62,7 @@ public class Item : MonoBehaviour
 
         if (Vector3.Distance(transform.position, m_CurrentConveyor.transform.position) < 0.05f)
         {
-            Debug.Log("Item reached conveyor midpoint!... Moving to next conveyor now.");
+            //Debug.Log("Item reached conveyor midpoint!... Moving to next conveyor now.");
             m_PrevConveyor = m_CurrentConveyor;
 
             if (m_CurrentConveyor != null)

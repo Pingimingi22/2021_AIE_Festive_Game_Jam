@@ -445,7 +445,7 @@ public class Conveyor : Structure
     {
         if (index > m_TotalConveyorConnections)
         {
-            Debug.LogError("GetConveyorFromHardCoded index is greater than the amount of total conveyor connections!");
+            //Debug.LogError("GetConveyorFromHardCoded index is greater than the amount of total conveyor connections!");
         }
         else
         {

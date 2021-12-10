@@ -85,7 +85,7 @@ public class ProductionBuilding : Structure
         }
         else
         {
-            Debug.Log("Factory does not have any conveyor belts!");
+            //Debug.Log("Factory does not have any conveyor belts!");
         }
     }
 }

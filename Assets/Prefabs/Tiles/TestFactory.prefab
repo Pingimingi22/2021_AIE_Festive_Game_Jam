@@ -274,7 +274,7 @@ MonoBehaviour:
   m_CurrentElves: 0
   m_IsProducing: 1
   m_CurrentProgress: 0
-  m_ProductionItem: {fileID: 7935176832940220863, guid: 39343ae7fe560a948acca5e2b8108f55, type: 3}
+  m_ProductionItem: {fileID: 6237427912859939479, guid: a6dae4d2af8536049b1ed11752d8dae4, type: 3}
   m_ProductionTime: 3
   m_ProductionRate: 0
   m_ProductionTime_Elves: 0

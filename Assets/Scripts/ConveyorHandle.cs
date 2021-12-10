@@ -48,10 +48,10 @@ public class ConveyorHandle : Clickable
 
 	protected override void OnMouseOver()
 	{
-        Debug.Log("Testing mouse over function.");
+        //Debug.Log("Testing mouse over function.");
         DrawSelectionOverlay(0.25f, 1, gameObject.transform.position);
         GameManager.s_Instance.SelectTile(this);
-        Debug.Log("Selected tile is: " + this.gameObject.name);
+        //Debug.Log("Selected tile is: " + this.gameObject.name);
     }
 
     protected override void DrawSelectionOverlay(float width, float height, Vector3 position)
