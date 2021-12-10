@@ -44,15 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
-  m_Width: 100
-  m_Height: 100
+  m_Width: 50
+  m_Height: 50
   m_BackgroundTilePrefab: {fileID: 1261075003187218309, guid: db4f4b1fd2c114b4f8dfbded17c600c4, type: 3}
   m_SelectionOverlayTilePrefab: {fileID: 3416786477968335883, guid: 83adcbea69b7b5742811678a228e50a4, type: 3}
   m_SelectionOverlayObj: {fileID: 0}
-  m_Cash: 0
+  m_Cash: 50
   m_TimeLeft: 0
+  m_TotalElves: 10
   m_CurrentSelection: {fileID: 0}
   m_CurrentPlaceable: {fileID: 0}
+  m_CurrentClicked: {fileID: 0}
   m_GiftsPerSecond: 0
   m_TotalGiftsSent: 0
   m_HalfExtentBG: {x: 0, y: 0, z: 0}
@@ -62,6 +64,12 @@ MonoBehaviour:
   m_ConveyorButtonImg: {fileID: 0}
   m_TestWorkshopButtonImg: {fileID: 0}
   m_TestFactoryButtonImg: {fileID: 0}
+  m_CashText: {fileID: 0}
+  m_CurrentlySelectedText: {fileID: 0}
+  m_TotalElvesText: {fileID: 0}
+  m_CurrentlyProducingText: {fileID: 0}
+  m_CurrentlyProducingImage: {fileID: 0}
+  m_CurrentElvesText: {fileID: 0}
   m_TestItemPrefab: {fileID: 0}
   m_GiftItemPrefab: {fileID: 0}
   m_WoodItemPrefab: {fileID: 0}
@@ -74,3 +82,4 @@ MonoBehaviour:
   m_ConveyorSprite: {fileID: 21300000, guid: 5423ff8ea9bc35343a05f3a3b854e003, type: 3}
   m_TotalPlacedSegments: 0
   m_CurrentTempSpriteRotation: 0
+  m_HUDRect: {fileID: 0}
