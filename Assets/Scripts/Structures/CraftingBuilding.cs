@@ -19,6 +19,11 @@ public class CraftingBuilding : Structure
     public float m_ProductionTime_Elves;
     public List<GameObject> ItemQueue = new List<GameObject>();
 
+
+    public List<Conveyor> m_AttachedConveyors = new List<Conveyor>();
+    public int m_CurrentConveyorBelt;
+    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
@@ -59,17 +64,7 @@ public class CraftingBuilding : Structure
         //m_ProductionTime_Elves = 60/m_ProductionRate  production time in seconds after applying elves
                                  
 
-        if (m_CurrentResource >= m_ResourceCost)
-        {
-            m_IsProducing = true;
-            m_CurrentResource = m_CurrentResource - m_ResourceCost;
-
-            for (int i = 0; i < ItemQueue.Count; i++)
-            {
-                GameObject.Destroy(ItemQueue[i]);
-            }
-            
-        }
+        
 
         if (m_IsProducing)
         {
@@ -88,8 +83,62 @@ public class CraftingBuilding : Structure
     // Update is called once per frame
     protected override void Update()
     {
-        base.Update();
+        //base.Update();
 
-        // 
+        // Checking if we can produce.
+        if (m_CurrentResource >= m_ResourceCost)
+        {
+            m_IsProducing = true;
+            m_CurrentResource = m_CurrentResource - m_ResourceCost;
+
+            for (int i = 0; i < ItemQueue.Count; i++)
+            {
+                GameObject.Destroy(ItemQueue[i]);
+            }
+            ItemQueue.Clear();
+        }
+
+
+        if (m_IsProducing)
+        {
+            m_CurrentProgress += Time.deltaTime;
+            if (m_CurrentProgress >= m_ProductionTime)
+            {
+                ProduceItem();
+                m_CurrentProgress = 0;
+            }
+        }
+
     }
+
+    public void ProduceItem()
+    {
+        // We pick a conveyor belt.
+        if (m_AttachedConveyors.Count > 0)
+        {
+            Conveyor conveyorChosen = m_AttachedConveyors[m_CurrentConveyorBelt];
+
+            // Create the item.
+            Item newItem = GameObject.Instantiate(m_ProductionItem);
+            newItem.m_CurrentConveyor = conveyorChosen;
+            conveyorChosen.AddItem(newItem);
+
+            if (m_CurrentConveyorBelt + 1 > m_AttachedConveyors.Count - 1)
+            {
+                m_CurrentConveyorBelt = 0;
+            }
+            else
+                m_CurrentConveyorBelt++;
+        }
+        else
+        {
+            //Debug.Log("Factory does not have any conveyor belts!");
+        }
+    }
+
+    public void AddConveyor(Conveyor conveyor)
+    {
+        m_AttachedConveyors.Add(conveyor);
+    }
+
 }
