@@ -112,11 +112,24 @@ public class ProductionBuilding : Structure
                 m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
                 
             }
-
-
-
         }
     }
 
+    public void AddElf()
+    {
+        if (GameManager.s_Instance.m_UnusedElves > 0)
+        {
+            m_CurrentElves++;
+            GameManager.s_Instance.m_UnusedElves--;
+        }
+    }
+    public void RemoveElf()
+    {
+        if (m_CurrentElves > 0)
+        {
+            m_CurrentElves--;
+            GameManager.s_Instance.m_UnusedElves++;
+        }
+    }
 
 }

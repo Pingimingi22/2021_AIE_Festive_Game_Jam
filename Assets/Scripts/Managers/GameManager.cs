@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     public float m_Cash;
     public float m_TimeLeft;
-    public int m_TotalElves = 10;
+    public int m_UnusedElves = 10;
     
 
 
@@ -59,6 +59,9 @@ public class GameManager : MonoBehaviour
     public Text m_CashText;
     public Text m_CurrentlySelectedText;
     public Text m_TotalElvesText;
+
+    public Button m_AddElfButton;
+    public Button m_RemoveElfButton;
 
     [Header("Building UI References")]
     public Text m_CurrentlyProducingText;
@@ -743,10 +746,16 @@ public class GameManager : MonoBehaviour
             m_CurrentlySelectedText.text = "Hovering: N/A";
         }
 
-        m_TotalElvesText.text = "Lazy Elves: " + m_TotalElves.ToString();
+        m_TotalElvesText.text = "Lazy Elves: " + m_UnusedElves.ToString();
+
+        m_CurrentElvesText.enabled = false;
 
         m_CurrentlyProducingText.enabled = false;
         m_CurrentlyProducingImage.enabled = false;
+
+        m_AddElfButton.gameObject.active = false;
+        m_RemoveElfButton.gameObject.active = false;
+       
     }
 
     public void UpdateCraftingBuildingUI()
@@ -758,6 +767,11 @@ public class GameManager : MonoBehaviour
             m_CurrentlyProducingText.enabled = true;
             m_CurrentlyProducingImage.sprite = building.m_ProductionItem.GetComponent<SpriteRenderer>().sprite;
             m_CurrentlyProducingImage.enabled = true;
+
+            m_AddElfButton.gameObject.active = true;
+            m_RemoveElfButton.gameObject.active = true;
+
+            m_CurrentElvesText.enabled = true;
         }
     }
 
@@ -776,13 +790,24 @@ public class GameManager : MonoBehaviour
     {
         if (m_Cash - 5 > 0)
         {
-            m_TotalElves++;
+            m_UnusedElves++;
             m_Cash -= 5;
         }
     }
     public void SellElf()
     {
-        m_TotalElves--;
+        m_UnusedElves--;
         m_Cash += 3.5f;
+    }
+
+    public void AddElf()
+    {
+        ProductionBuilding building = (ProductionBuilding)m_CurrentClicked;
+        building.AddElf();
+    }
+    public void RemoveElf()
+    {
+        ProductionBuilding building = (ProductionBuilding)m_CurrentClicked;
+        building.RemoveElf();
     }
 }
