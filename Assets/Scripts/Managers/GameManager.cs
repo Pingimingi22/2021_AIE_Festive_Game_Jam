@@ -522,6 +522,9 @@ public class GameManager : MonoBehaviour
                     int upDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.UP);
                     int downDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.DOWN);
                     surroundingConveyors[0].SetConnection((int)oppositeNum, -1);
+
+                    // If we have something to connect to, connect.
+                    newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
                 }
             }
 
