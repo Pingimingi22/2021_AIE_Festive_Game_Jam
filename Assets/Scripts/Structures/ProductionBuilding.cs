@@ -19,7 +19,8 @@ public class ProductionBuilding : Structure
 
 
     public int m_CurrentConveyorBelt = 0;
-    List<Conveyor> m_AttachedConveyors = new List<Conveyor>();
+    List<Conveyor> m_OutputConveyors = new List<Conveyor>();
+    List<Conveyor> m_InputConveyors = new List<Conveyor>();
 
 
 
@@ -61,15 +62,15 @@ public class ProductionBuilding : Structure
 
     public void AddConveyor(Conveyor conveyor)
     {
-        m_AttachedConveyors.Add(conveyor);
+        m_OutputConveyors.Add(conveyor);
     }
 
     public void ProduceItem()
     {
         // We pick a conveyor belt.
-        if (m_AttachedConveyors.Count > 0)
+        if (m_OutputConveyors.Count > 0)
         {
-            Conveyor conveyorChosen = m_AttachedConveyors[m_CurrentConveyorBelt];
+            Conveyor conveyorChosen = m_OutputConveyors[m_CurrentConveyorBelt];
 
             // Create the item.
             Item newItem = GameObject.Instantiate(m_ProductionItem);
@@ -77,7 +78,7 @@ public class ProductionBuilding : Structure
             conveyorChosen.AddItem(newItem);
             
 
-            if (m_CurrentConveyorBelt + 1 > m_AttachedConveyors.Count - 1)
+            if (m_CurrentConveyorBelt + 1 > m_OutputConveyors.Count - 1)
             {
                 m_CurrentConveyorBelt = 0;
             }
@@ -96,7 +97,20 @@ public class ProductionBuilding : Structure
 	{
         if (collision.gameObject.tag == "Conveyor")
         {
-            m_AttachedConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
+            // Before we add it, we must check if it is already in the list.
+
+            Conveyor collisionConveyor = collision.gameObject.GetComponent<Conveyor>();
+            Vector3 toConveyor = (collision.transform.position - transform.position).normalized;
+            Vector3 conveyorForward = collisionConveyor.m_SpriteRenderer.transform.right;
+
+            if (Vector3.Dot(toConveyor, conveyorForward) == -1)
+            {
+                Debug.Log("This is an input conveyor belt.");
+            }
+
+            m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
+
+
         }
     }
 
