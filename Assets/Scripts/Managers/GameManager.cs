@@ -121,22 +121,22 @@ public class GameManager : MonoBehaviour
         // Moving camera stuff.
        
         Vector3 mov = Vector3.zero;
-        if (Input.mousePosition.x > Screen.width - (Screen.width / 8))
+        if (/*Input.mousePosition.x > Screen.width - (Screen.width / 8)*/Input.GetKey(KeyCode.D))
         {
             mov.x += 2 * Time.deltaTime;
             Camera.main.transform.position += mov;
         }
-        if (Input.mousePosition.x < 0 + (Screen.width / 8))
+        if (/*Input.mousePosition.x < 0 + (Screen.width / 8)*/Input.GetKey(KeyCode.A))
         {
             mov.x -= 2 * Time.deltaTime;
             Camera.main.transform.position += mov;
         }
-        if (Input.mousePosition.y < 0 + (Screen.height / 8))
+        if (/*Input.mousePosition.y < 0 + (Screen.height / 8)*/Input.GetKey(KeyCode.S))
         {
             mov.y -= 2 * Time.deltaTime;
             Camera.main.transform.position += mov;
         }
-        if (Input.mousePosition.y > Screen.height - (Screen.width / 8))
+        if (/*Input.mousePosition.y > Screen.height - (Screen.width / 8)*/Input.GetKey(KeyCode.W))
         {
             mov.y += 2 * Time.deltaTime;
             Camera.main.transform.position += mov;
