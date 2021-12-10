@@ -488,6 +488,26 @@ public class GameManager : MonoBehaviour
             int connectionNum = GetNumDirFromHandleDir(m_HeldHandleDirection);
             newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
 
+            if (i == m_PlannedConveyors.Count - 1)
+            {
+                // If this is the last conveyor in the plans, we want to check it's surrounding conveyors and connect with them if any
+                // exist.
+                int oppositeNum = GetOppositeNumDirFromHandleDir(m_HeldHandleDirection);
+                int dir = GetNumDirFromHandleDir(m_HeldHandleDirection);
+                List<Conveyor> surroundingConveyors = newConveyorConveyor.GetSurroundingConveyors(dir, oppositeNum);
+                if (surroundingConveyors.Count > 0)
+                {
+                    // We have surrounding conveyors.
+                    int hi = 5;
+
+                    int leftDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.LEFT);
+                    int rightDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.RIGHT);
+                    int upDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.UP);
+                    int downDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.DOWN);
+                    //surroundingConveyors[0].SetConnection(rightDirNum, downDirNum, leftDirNum, upDirNum);
+                }
+            }
+
         }
         StopPlanning();        
     }
@@ -504,6 +524,24 @@ public class GameManager : MonoBehaviour
                 return 2;
             case HANDLE_TYPE.UP:
                 return 3;
+
+            default:
+                Debug.LogError("GetNumDirFromHandleDir has broken!");
+                return -1;
+        }
+    }
+    public int GetOppositeNumDirFromHandleDir(HANDLE_TYPE handleDir)
+    {
+        switch (handleDir)
+        {
+            case HANDLE_TYPE.RIGHT:
+                return 2;
+            case HANDLE_TYPE.DOWN:
+                return 3;
+            case HANDLE_TYPE.LEFT:
+                return 0;
+            case HANDLE_TYPE.UP:
+                return 1;
 
             default:
                 Debug.LogError("GetNumDirFromHandleDir has broken!");

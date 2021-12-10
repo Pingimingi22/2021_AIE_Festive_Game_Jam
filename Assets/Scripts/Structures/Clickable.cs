@@ -232,14 +232,14 @@ public class Clickable : MonoBehaviour
     /// <summary>
     /// Finds all surrounding tiles. 
     /// </summary>
-    protected List<Clickable> GetSurroundingTiles()
+    protected List<Clickable> GetSurroundingTiles(int dir, int excludeDirNum)
     {
         GameManager manager = GameManager.s_Instance;
 
         List<Clickable> surroundingTiles = new List<Clickable>();
 
         // ========================== RIGHT CONNECTION ========================== //
-        if (manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y))
+        if (manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y) && dir == 0)
         {
             Clickable rightTile = manager.GetTile((int)m_WorldIndex.x + 1, (int)m_WorldIndex.y);
    
@@ -247,7 +247,7 @@ public class Clickable : MonoBehaviour
             
         }
         // ========================== LEFT CONNECTION ========================== //
-        if (manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y))
+        if (manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y) && dir == 2)
         {
             Clickable leftTile = manager.GetTile((int)m_WorldIndex.x - 1, (int)m_WorldIndex.y);
 
@@ -255,7 +255,7 @@ public class Clickable : MonoBehaviour
             
         }
         // ========================== UP CONNECTION ========================== //
-        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1))
+        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1) && dir == 3)
         {
             Clickable upTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y + 1);
 
@@ -263,7 +263,7 @@ public class Clickable : MonoBehaviour
             
         }
         // ========================== DOWN CONNECTION ========================== //
-        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1))
+        if (manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1) && dir == 1)
         {
             Clickable downTile = manager.GetTile((int)m_WorldIndex.x, (int)m_WorldIndex.y - 1);
 
