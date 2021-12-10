@@ -107,8 +107,12 @@ public class ProductionBuilding : Structure
             {
                 Debug.Log("This is an input conveyor belt.");
             }
+            else
+            { 
+                m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
+                
+            }
 
-            m_OutputConveyors.Add(collision.gameObject.GetComponent<Conveyor>());
 
 
         }

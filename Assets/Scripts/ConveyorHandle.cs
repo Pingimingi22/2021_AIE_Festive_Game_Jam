@@ -41,6 +41,8 @@ public class ConveyorHandle : Clickable
 
                 // Remove current placeable so we don't accidentally place while planning conveyor belts.
                 GameManager.s_Instance.ClearPlaceable();
+
+                GameManager.s_Instance.Unclick();
                 
             }
         }
@@ -49,7 +51,10 @@ public class ConveyorHandle : Clickable
 	protected override void OnMouseOver()
 	{
         //Debug.Log("Testing mouse over function.");
-        DrawSelectionOverlay(0.25f, 1, gameObject.transform.position);
+        if (GameManager.s_Instance.m_CurrentClicked == null || GameManager.s_Instance.m_CurrentClicked == this)
+        { 
+            DrawSelectionOverlay(0.25f, 1, gameObject.transform.position);
+        }
         GameManager.s_Instance.SelectTile(this);
         //Debug.Log("Selected tile is: " + this.gameObject.name);
     }

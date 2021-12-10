@@ -63,31 +63,35 @@ public class Conveyor : Structure
     }
     protected override void HandleInput()
     {
-        if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
-        {
+        //if (Input.GetMouseButtonDown(0) && GameManager.s_Instance.m_CurrentSelection == this)
+        //{
+            
 
-            gameObject.name = "clicked";
+        //        if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR_HANDLE)
+        //        {
+        //            Debug.Log(" ============================ Clicked on a HANDLE ============================");
+        //            GameManager.s_Instance.m_IsPlacingConveyor = true;
+        //            GameManager.s_Instance.m_StartConveyor = transform.parent.transform;
+        //            GameManager.s_Instance.m_HeldHandleDirection = m_HandleType;
 
-            //if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR)
-            //{
-            //    SpriteRenderer sprite = gameObject.GetComponentInChildren<SpriteRenderer>();
-            //    sprite.transform.eulerAngles = new Vector3(0, 0, sprite.transform.eulerAngles.z - 90);
+        //            // Remove current placeable so we don't accidentally place while planning conveyor belts.
+        //            GameManager.s_Instance.ClearPlaceable();
 
-            //    if ((int)m_Direction + 1 > 3)
-            //        m_Direction = 0;
-            //    else
-            //        m_Direction++;
+        //        }
+            
+    
+        //}
+    }
 
-            //    //ClearConnections();
-            //    //ResetInputs();
-
-            //    // Check if we have to connect things now that we've rotated.
-            //    //Connect();
-
-
-            //    Debug.Log("ROTATED TILE.");
-            //}
+    protected override void OnMouseOver()
+    {
+        //Debug.Log("Testing mouse over function.");
+        if (GameManager.s_Instance.m_CurrentClicked == null || GameManager.s_Instance.m_CurrentClicked == this)
+        { 
+            DrawSelectionOverlay(1, 1, transform.position);
         }
+        GameManager.s_Instance.SelectTile(this);
+        //Debug.Log("Selected tile is: " + this.gameObject.name);
     }
 
     public override void Connect()

@@ -73,18 +73,27 @@ public class Clickable : MonoBehaviour
                 //Debug.Log("ROTATED TILE.");
             }
 
-            else
+            else if (GameManager.s_Instance.m_CurrentPlaceable != null)
             {
                 //Debug.Log("PLACED TILE.");
                 PlaceTile();
             }
+            else
+            {
+                GameManager.s_Instance.Click(this);
+            }
         }
+        
+        
     }
 
 	protected virtual void OnMouseOver()
 	{
         //Debug.Log("Testing mouse over function.");
-        DrawSelectionOverlay(1, 1, transform.position);
+        if (GameManager.s_Instance.m_CurrentClicked == null || GameManager.s_Instance.m_CurrentClicked == this)
+        { 
+            DrawSelectionOverlay(1, 1, transform.position);
+        }
         GameManager.s_Instance.SelectTile(this);
         //Debug.Log("Selected tile is: " + this.gameObject.name);
 	}

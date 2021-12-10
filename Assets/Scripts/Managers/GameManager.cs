@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public enum SelectedButton
 { 
     NONE,
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
 
     public Clickable m_CurrentSelection;
     public Clickable m_CurrentPlaceable;
+    public Clickable m_CurrentClicked;
 
     public float m_GiftsPerSecond;
     public int m_TotalGiftsSent;
@@ -52,6 +53,9 @@ public class GameManager : MonoBehaviour
     public Image m_ConveyorButtonImg;
     public Image m_TestWorkshopButtonImg;
     public Image m_TestFactoryButtonImg;
+
+    public Text m_CashText;
+    public Text m_CurrentlySelectedText;
 
 
 	// Storing information for the world map.
@@ -169,7 +173,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !m_IsPlacingConveyor)
         {
             ClearPlaceable();
+            Unclick();
         }
+        
 
         if (m_IsPlacingConveyor)
         {
@@ -394,6 +400,9 @@ public class GameManager : MonoBehaviour
 
 
         }
+
+
+        UpdateGenericUI();
     }
 
     private void OnDrawGizmos()
@@ -446,12 +455,14 @@ public class GameManager : MonoBehaviour
 
     public void SelectTile(Clickable tileToSelect)
     {
+        
         m_CurrentSelection = (Clickable)tileToSelect;
 
         if (tileToSelect.m_Type == TileTypes.CONVEYOR)
         {
             //Debug.Log("test");
         }
+        
     }
 
     public Clickable GetTile(int x, int y)
@@ -612,6 +623,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectPlaceable(Clickable placeablePrefab)
     {
+        Unclick();
+
         m_CurrentPlaceable = placeablePrefab;
 
         if (placeablePrefab == m_ConveyorPrefab)
@@ -663,6 +676,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
+    public void UpdateGenericUI()
+    {
+        m_CashText.text = "Cash: " + m_Cash.ToString();
+        if (m_CurrentClicked)
+        {
+            m_CurrentlySelectedText.text = "Clicked: " + m_CurrentClicked.name;
+        }
+        else if (m_CurrentSelection)
+        {
+            m_CurrentlySelectedText.text = "Hovering: " + m_CurrentSelection.name;
+        }
+        else
+        {
+            m_CurrentlySelectedText.text = "Hovering: N/A";
+        }
+    }
+
+    public void Click(Clickable clickable)
+    {
+        m_CurrentClicked = clickable;
+        m_CurrentSelection = null;
+    }
+    public void Unclick()
+    {
+        m_CurrentClicked = null;
+    }
 
 }
