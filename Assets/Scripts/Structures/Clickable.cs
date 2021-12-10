@@ -179,6 +179,26 @@ public class Clickable : MonoBehaviour
                     for (int j = startY; j < endY + 1; j++)
                     {
                         GameManager.s_Instance.m_WorldGrid[i][j].m_Type = TileTypes.BUILDING;
+                        GameManager.s_Instance.m_WorldGrid[i][j].GetComponent<BoxCollider2D>().enabled = false;
+
+                        // Have to manually place real conveyors on the conveyor tiles.
+                        if (i == m_WorldIndex.x + 2 && j == m_WorldIndex.y)
+                        {
+                            ManuallyPlaceConveyor(i, j, 0);
+                        }
+                        if (i == m_WorldIndex.x - 2 && j == m_WorldIndex.y)
+                        {
+                            ManuallyPlaceConveyor(i, j, 180);
+                        }
+                        if (i == m_WorldIndex.x && j == m_WorldIndex.y + 2)
+                        {
+                            ManuallyPlaceConveyor(i, j, 90);
+                        }
+                        if (i == m_WorldIndex.x && j == m_WorldIndex.y - 2)
+                        {
+                            ManuallyPlaceConveyor(i, j, -90);
+                        }
+
                     }
                 }
             }
@@ -291,5 +311,24 @@ public class Clickable : MonoBehaviour
         m_TemporaryRenderer.enabled = false;
     }
 
+    public void ManuallyPlaceConveyor(int worldXIndex, int worldYIndex, float rotation)
+    {
+        Clickable currentTile = GameManager.s_Instance.GetTile(worldXIndex, worldYIndex);
+
+        Clickable newRealConveyor = GameObject.Instantiate(GameManager.s_Instance.m_ConveyorPrefab);
+        newRealConveyor.transform.position = currentTile.transform.position;
+        newRealConveyor.ClearTempSprite(); // Newly instantiated conveyors have their temporary renderered enabled so I hide it like this.
+        newRealConveyor.m_WorldIndex.x = worldXIndex; // Assign world index to new conveyor.
+        newRealConveyor.m_WorldIndex.y = worldYIndex;
+
+        // Have to disable collider of background tile since we've placed something on top of it.
+        GameManager.s_Instance.m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y].GetComponent<BoxCollider2D>().enabled = false;
+
+        // Have to tell the world that this new conveyor belt should replace the current world index reference.
+        GameManager.s_Instance.m_WorldGrid[(int)newRealConveyor.m_WorldIndex.x][(int)newRealConveyor.m_WorldIndex.y] = newRealConveyor;
+
+        SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
+        newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, rotation);
+    }
 
 }
