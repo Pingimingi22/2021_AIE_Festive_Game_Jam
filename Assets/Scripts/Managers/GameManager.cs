@@ -57,7 +57,11 @@ public class GameManager : MonoBehaviour
 	// Storing information for the world map.
 	public List<List<Clickable>> m_WorldGrid;
 
+    [Header("Item Prefabs")]
     public GameObject m_TestItemPrefab;
+    public GameObject m_GiftItemPrefab;
+    public GameObject m_WoodItemPrefab;
+
 
     public Transform m_StartConveyor = null;
     public bool m_IsPlacingConveyor = false;

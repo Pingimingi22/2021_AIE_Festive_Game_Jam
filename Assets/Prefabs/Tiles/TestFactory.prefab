@@ -272,12 +272,13 @@ MonoBehaviour:
     m_InputOutput: 
     m_Connections: 
   m_CurrentElves: 0
-  m_IsProducing: 0
+  m_IsProducing: 1
   m_CurrentProgress: 0
-  m_ProductionItem: {fileID: 0}
-  m_ProductionTime: 0
+  m_ProductionItem: {fileID: 7935176832940220863, guid: 39343ae7fe560a948acca5e2b8108f55, type: 3}
+  m_ProductionTime: 3
   m_ProductionRate: 0
   m_ProductionTime_Elves: 0
+  m_CurrentConveyorBelt: 0
 --- !u!61 &3682739754020986193
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -110,7 +110,7 @@ public class Clickable : MonoBehaviour
     {
         if (GameManager.s_Instance.m_CurrentPlaceable) // If we have a placeable to place.
         {
-
+            GameObject newTile = null;
             if (GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestFactoryPrefab)
             {
                 // Because this building is bigger than 1x1 we have to get all 10 of the tiles it goes over.
@@ -173,6 +173,14 @@ public class Clickable : MonoBehaviour
                     }
                 }
 
+
+                
+                if (GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestFactoryPrefab)
+                {
+                    newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);
+                }
+
+                ProductionBuilding productionBuilding = newTile.GetComponent<ProductionBuilding>();
                 // Okay after all of that, we now know that we can place the factory down.
                 for (int i = startX; i < endX + 1; i++)
                 {
@@ -181,22 +189,28 @@ public class Clickable : MonoBehaviour
                         GameManager.s_Instance.m_WorldGrid[i][j].m_Type = TileTypes.BUILDING;
                         GameManager.s_Instance.m_WorldGrid[i][j].GetComponent<BoxCollider2D>().enabled = false;
 
+                        
+
                         // Have to manually place real conveyors on the conveyor tiles.
                         if (i == m_WorldIndex.x + 2 && j == m_WorldIndex.y)
                         {
-                            ManuallyPlaceConveyor(i, j, 0);
+                            Conveyor newConveyor = ManuallyPlaceConveyor(i, j, 0);
+                            productionBuilding.AddConveyor(newConveyor);
                         }
                         if (i == m_WorldIndex.x - 2 && j == m_WorldIndex.y)
                         {
-                            ManuallyPlaceConveyor(i, j, 180);
+                            Conveyor newConveyor = ManuallyPlaceConveyor(i, j, 180);
+                            productionBuilding.AddConveyor(newConveyor);
                         }
                         if (i == m_WorldIndex.x && j == m_WorldIndex.y + 2)
                         {
-                            ManuallyPlaceConveyor(i, j, 90);
+                            Conveyor newConveyor = ManuallyPlaceConveyor(i, j, 90);
+                            productionBuilding.AddConveyor(newConveyor);
                         }
                         if (i == m_WorldIndex.x && j == m_WorldIndex.y - 2)
                         {
-                            ManuallyPlaceConveyor(i, j, -90);
+                            Conveyor newConveyor = ManuallyPlaceConveyor(i, j, -90);
+                            productionBuilding.AddConveyor(newConveyor);
                         }
 
                     }
@@ -207,8 +221,11 @@ public class Clickable : MonoBehaviour
             // When we place a tile, we have to remove the collider from the tile beneath.
             this.GetComponent<BoxCollider2D>().enabled = false;
 
+            if (GameManager.s_Instance.m_CurrentPlaceable != GameManager.s_Instance.m_TestFactoryPrefab)
+            {
+                newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);     
+            }
 
-            GameObject newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);
 
             Clickable newClickable = newTile.GetComponent<Clickable>();
             newClickable.m_WorldIndex.x = m_WorldIndex.x;
@@ -311,7 +328,7 @@ public class Clickable : MonoBehaviour
         m_TemporaryRenderer.enabled = false;
     }
 
-    public void ManuallyPlaceConveyor(int worldXIndex, int worldYIndex, float rotation)
+    public Conveyor ManuallyPlaceConveyor(int worldXIndex, int worldYIndex, float rotation)
     {
         Clickable currentTile = GameManager.s_Instance.GetTile(worldXIndex, worldYIndex);
 
@@ -329,6 +346,8 @@ public class Clickable : MonoBehaviour
 
         SpriteRenderer newConveyorRenderer = newRealConveyor.gameObject.GetComponentInChildren<SpriteRenderer>();
         newConveyorRenderer.transform.eulerAngles = new Vector3(0, 0, rotation);
+
+        return (Conveyor)newRealConveyor;
     }
 
 }

@@ -12,11 +12,14 @@ public class ProductionBuilding : Structure
 
     public float m_CurrentProgress;
     public Item m_ProductionItem; // Item that is produced by this building.
+
     public float m_ProductionTime;
     public float m_ProductionRate;
     public float m_ProductionTime_Elves;
 
-    
+
+    public int m_CurrentConveyorBelt = 0;
+    List<Conveyor> m_AttachedConveyors = new List<Conveyor>();
 
 
 
@@ -41,8 +44,48 @@ public class ProductionBuilding : Structure
     // Update is called once per frame
     protected override void Update()
     {
-        base.Update();
+        //base.Update();
+
+        if (m_IsProducing)
+        {
+            m_CurrentProgress += Time.deltaTime;
+            if (m_CurrentProgress >= m_ProductionTime)
+            {
+                ProduceItem();
+                m_CurrentProgress = 0;
+            }
+        }
 
         // 
+    }
+
+    public void AddConveyor(Conveyor conveyor)
+    {
+        m_AttachedConveyors.Add(conveyor);
+    }
+
+    public void ProduceItem()
+    {
+        // We pick a conveyor belt.
+        if (m_AttachedConveyors.Count > 0)
+        {
+            Conveyor conveyorChosen = m_AttachedConveyors[m_CurrentConveyorBelt];
+
+            // Create the item.
+            Item newItem = GameObject.Instantiate(m_ProductionItem);
+            newItem.m_CurrentConveyor = conveyorChosen;
+            conveyorChosen.AddItem(newItem);
+
+            if (m_CurrentConveyorBelt + 1 > m_AttachedConveyors.Count - 1)
+            {
+                m_CurrentConveyorBelt = 0;
+            }
+            else
+                m_CurrentConveyorBelt++;
+        }
+        else
+        {
+            Debug.Log("Factory does not have any conveyor belts!");
+        }
     }
 }
