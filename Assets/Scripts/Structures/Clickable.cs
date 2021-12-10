@@ -394,7 +394,7 @@ public class Clickable : MonoBehaviour
 
 
 
-                if (GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestFactoryPrefab || GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestWorkshopPrefab || GameManager.s_Instance.m_CanonFactoryPrefab)
+                if (GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestFactoryPrefab || GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_TestWorkshopPrefab || GameManager.s_Instance.m_CurrentPlaceable == GameManager.s_Instance.m_CanonFactoryPrefab)
                 {
                     newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);
                 }
@@ -440,7 +440,7 @@ public class Clickable : MonoBehaviour
             // When we place a tile, we have to remove the collider from the tile beneath.
             this.GetComponent<BoxCollider2D>().enabled = false;
 
-            if (GameManager.s_Instance.m_CurrentPlaceable != GameManager.s_Instance.m_TestFactoryPrefab)
+            if (GameManager.s_Instance.m_CurrentPlaceable != GameManager.s_Instance.m_TestFactoryPrefab && GameManager.s_Instance.m_CurrentPlaceable != GameManager.s_Instance.m_CanonFactoryPrefab && GameManager.s_Instance.m_CurrentPlaceable != GameManager.s_Instance.m_TestWorkshopPrefab)
             {
                 newTile = GameObject.Instantiate(GameManager.s_Instance.m_CurrentPlaceable.gameObject);     
             }
