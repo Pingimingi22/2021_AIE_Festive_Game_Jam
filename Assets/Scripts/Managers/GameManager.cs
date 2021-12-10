@@ -80,6 +80,8 @@ public class GameManager : MonoBehaviour
     SelectedButton m_SelectedButton;
 
 
+    
+
     private void Awake()
     {
         if (s_Instance == null)
@@ -486,7 +488,11 @@ public class GameManager : MonoBehaviour
             // Setting inputs/outputs and connections for this confirmed choice of conveyor belts.
             Conveyor newConveyorConveyor = (Conveyor)newRealConveyor;
             int connectionNum = GetNumDirFromHandleDir(m_HeldHandleDirection);
-            newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
+
+            if(i != m_PlannedConveyors.Count - 1) // Don't want to link the last conveyor because it might fall off of the line.
+                newConveyorConveyor.m_ConnectionArray.m_Connections[connectionNum] = 1;
+
+            m_StartConveyor.GetComponent<Conveyor>().SetConnection(GetNumDirFromHandleDir(m_HeldHandleDirection), 1);
 
             if (i == m_PlannedConveyors.Count - 1)
             {
@@ -504,7 +510,7 @@ public class GameManager : MonoBehaviour
                     int rightDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.RIGHT);
                     int upDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.UP);
                     int downDirNum = GetNumDirFromHandleDir(HANDLE_TYPE.DOWN);
-                    //surroundingConveyors[0].SetConnection(rightDirNum, downDirNum, leftDirNum, upDirNum);
+                    surroundingConveyors[0].SetConnection((int)oppositeNum, -1);
                 }
             }
 

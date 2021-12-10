@@ -65,32 +65,25 @@ public class Conveyor : Structure
         {
 
             gameObject.name = "clicked";
-            //if (m_Type == TileTypes.CONVEYOR)
+
+            //if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR)
             //{
-            if (GameManager.s_Instance.m_CurrentSelection.m_Type == TileTypes.CONVEYOR)
-            {
-                SpriteRenderer sprite = gameObject.GetComponentInChildren<SpriteRenderer>();
-                sprite.transform.eulerAngles = new Vector3(0, 0, sprite.transform.eulerAngles.z - 90);
+            //    SpriteRenderer sprite = gameObject.GetComponentInChildren<SpriteRenderer>();
+            //    sprite.transform.eulerAngles = new Vector3(0, 0, sprite.transform.eulerAngles.z - 90);
 
-                if ((int)m_Direction + 1 > 3)
-                    m_Direction = 0;
-                else
-                    m_Direction++;
+            //    if ((int)m_Direction + 1 > 3)
+            //        m_Direction = 0;
+            //    else
+            //        m_Direction++;
 
-                //ClearConnections();
-                //ResetInputs();
+            //    //ClearConnections();
+            //    //ResetInputs();
 
-                // Check if we have to connect things now that we've rotated.
-                //Connect();
+            //    // Check if we have to connect things now that we've rotated.
+            //    //Connect();
 
 
-                Debug.Log("ROTATED TILE.");
-            }
-
-            //else
-            //{
-            //    Debug.Log("PLACED TILE.");
-            //    PlaceTile();
+            //    Debug.Log("ROTATED TILE.");
             //}
         }
     }
@@ -337,7 +330,8 @@ public class Conveyor : Structure
     public Conveyor GetNextConveyor(Conveyor blacklistedConveyor)
     {
         Conveyor nextConveyor = null;
-        if (m_TotalConveyorConnections > 1)
+        GetTotalConnections();
+        if (m_TotalConveyorConnections > 0)
         {
             //CONVEYOR_DIRECTION nextConveyorDir = GetDirectionFromNum(m_NextConnectionToSend);
             //Clickable nextClickable = GetConnection(nextConveyorDir);
@@ -484,6 +478,25 @@ public class Conveyor : Structure
         m_ConnectionArray.m_Connections[3] = north;
     }
 
+    public void SetConnection(int dir, int value)
+    {
+        switch (dir)
+        {
+            case 0:
+                m_ConnectionArray.m_Connections[0] = value;
+                break;
+            case 1:
+                m_ConnectionArray.m_Connections[1] = value;
+                break;
+            case 2:
+                m_ConnectionArray.m_Connections[2] = value;
+                break;
+            case 3:
+                m_ConnectionArray.m_Connections[3] = value;
+                break;
+        }
+    }
+
     public List<Conveyor> GetSurroundingConveyors(int dir, int excludeDirNum)
     {
         List<Clickable> surroundingTiles = GetSurroundingTiles(dir, excludeDirNum);
@@ -499,4 +512,6 @@ public class Conveyor : Structure
 
         return surroundingConveyors;
     }
+
+    
 }
