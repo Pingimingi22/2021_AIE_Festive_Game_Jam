@@ -141,6 +141,10 @@ public class GameManager : MonoBehaviour
             mov.y += 2 * Time.deltaTime;
             Camera.main.transform.position += mov;
         }
+        m_CameraZoom = Input.mouseScrollDelta.y * 0.1f;
+           
+        Camera.main.orthographicSize -= m_CameraZoom;
+
 
 
 
