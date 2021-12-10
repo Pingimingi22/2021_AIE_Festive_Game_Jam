@@ -456,7 +456,7 @@ GameObject:
   - component: {fileID: 8507084326812750002}
   m_Layer: 0
   m_Name: TestCanon
-  m_TagString: CraftingBuilding
+  m_TagString: GiftCanon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -523,7 +523,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 382e8f0fb17b85649b89fc20d6d1334d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 31cbbbe97997c4b42b9157176c46c806, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -623,7 +623,7 @@ MonoBehaviour:
   m_Type: 0
   m_ID: 0
   m_WorldIndex: {x: 0, y: 0}
-  m_Renderer: {fileID: 0}
+  m_Renderer: {fileID: 5362591454315735758}
   m_TemporaryRenderer: {fileID: 0}
   m_CacheSprite: {fileID: 0}
   m_TemporarySprite: {fileID: 0}
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Fuse3: {fileID: 0}
   m_Fuse4: {fileID: 0}
   m_Fuse5: {fileID: 0}
-  m_Renderer: {fileID: 0}
+  m_OurRenderer: {fileID: 0}
 --- !u!1 &8885484631257312057
 GameObject:
   m_ObjectHideFlags: 0

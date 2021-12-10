@@ -8,7 +8,8 @@ public enum SelectedButton
     NONE,
     CONVEYOR_BUTTON,
     TEST_WORKSHOP_BUTTON,
-    TEST_FACTORY_BUTTON
+    TEST_FACTORY_BUTTON,
+    CANON_BUTTON
 }
 public class GameManager : MonoBehaviour
 {
@@ -50,11 +51,13 @@ public class GameManager : MonoBehaviour
     public Clickable m_ConveyorPrefab;
     public Clickable m_TestWorkshopPrefab;
     public Clickable m_TestFactoryPrefab;
+    public Clickable m_CanonFactoryPrefab;
 
     [Header("UI References")]
     public Image m_ConveyorButtonImg;
     public Image m_TestWorkshopButtonImg;
     public Image m_TestFactoryButtonImg;
+    public Image m_CanonFactoryButtonImg;
 
     public Text m_CashText;
     public Text m_CurrentlySelectedText;
@@ -189,6 +192,7 @@ public class GameManager : MonoBehaviour
                 SelectTile(clickableThing);
                 //Debug.Log("Selected tile is: " + this.gameObject.name);
             }
+            //else if(testHit.transform && test)
 
         }
 
@@ -695,6 +699,10 @@ public class GameManager : MonoBehaviour
         {
             m_SelectedButton = SelectedButton.TEST_WORKSHOP_BUTTON;
         }
+        else if (placeablePrefab == m_CanonFactoryPrefab)
+        {
+            m_SelectedButton = SelectedButton.CANON_BUTTON;
+        }
         else
             m_SelectedButton = SelectedButton.NONE;
 
@@ -709,6 +717,7 @@ public class GameManager : MonoBehaviour
         m_ConveyorButtonImg.color = Color.white;
         m_TestFactoryButtonImg.color = Color.white;
         m_TestWorkshopButtonImg.color = Color.white;
+        m_CanonFactoryButtonImg.color = Color.white;
     }
 
     public void SelectButton()
@@ -716,6 +725,8 @@ public class GameManager : MonoBehaviour
         m_ConveyorButtonImg.color = Color.white;
         m_TestFactoryButtonImg.color = Color.white;
         m_TestWorkshopButtonImg.color = Color.white;
+        m_CanonFactoryButtonImg.color = Color.white;
+
 
         switch (m_SelectedButton)
         {
@@ -727,6 +738,9 @@ public class GameManager : MonoBehaviour
                 break;
             case SelectedButton.TEST_WORKSHOP_BUTTON:
                 m_TestWorkshopButtonImg.color = Color.gray;
+                break;
+            case SelectedButton.CANON_BUTTON:
+                m_CanonFactoryButtonImg.color = Color.gray;
                 break;
 
         }
@@ -774,6 +788,21 @@ public class GameManager : MonoBehaviour
             m_RemoveElfButton.gameObject.active = true;
 
             m_CurrentElvesText.enabled = true;
+        }
+        else if (m_CurrentClicked && m_CurrentClicked.tag == "Canon")
+        {
+            GiftCanon canon = (GiftCanon)m_CurrentClicked;
+
+            m_CurrentElvesText.text = "Elves: N/A"; //+ canon.m_CurrentElves.ToString();
+            m_CurrentlyProducingText.enabled = false;
+            //m_CurrentlyProducingImage.sprite = building.m_ProductionItem.GetComponent<SpriteRenderer>().sprite;
+            m_CurrentlyProducingImage.enabled = false;
+
+            //m_AddElfButton.gameObject.active = true;
+            //m_RemoveElfButton.gameObject.active = true;
+
+            m_CurrentElvesText.enabled = true;
+
         }
     }
 

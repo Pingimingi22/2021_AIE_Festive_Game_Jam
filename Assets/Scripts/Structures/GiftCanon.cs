@@ -25,7 +25,7 @@ public class GiftCanon : Structure
     public Sprite m_Fuse4;
     public Sprite m_Fuse5;
 
-    public SpriteRenderer m_Renderer;
+    public SpriteRenderer m_OurRenderer;
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -36,10 +36,10 @@ public class GiftCanon : Structure
             m_CurrentResource = m_CurrentResource + 1; //adding 1 to the inventory
             ItemQueue.Add(collision.gameObject);
         }
-        else
-        {
-            GameObject.Destroy(collision.gameObject);
-        }
+        //else
+        //{
+        //    GameObject.Destroy(collision.gameObject);
+        //}
     }
     
 

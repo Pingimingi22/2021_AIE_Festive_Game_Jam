@@ -8,6 +8,8 @@ TagManager:
   - CraftingBuilding
   - UI
   - Background
+  - GiftCanon
+  - Present
   layers:
   - Default
   - TransparentFX
